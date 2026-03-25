@@ -1,0 +1,8 @@
+field,display_name,btn,hidden,sort_name
+date,Date,,,Date
+creator,Creator,,,
+subject,,true
+location,,true,,Location
+identifier,,,true,Identifier
+object_transcript,Object Transcript,,true,
+object_location,Object Location,,true

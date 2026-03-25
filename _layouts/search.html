@@ -1,0 +1,47 @@
+---
+# Lunr search page
+layout: page 
+custom-foot: js/lunr-js.html
+---
+{%- assign fields = site.data.config-search | where: 'index',true | map: 'field' -%}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-primary float-end" data-bs-toggle="modal" data-bs-target="#operators">Search Options</button>
+<!-- Modal -->
+<div class="modal fade" id="operators" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Lunr Search Options</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Estas opciones avanzadas se pueden agregar a tu consulta en el cuadro de búsqueda para refinar tus resultados:</p> 
+                <ul>
+                    <li>Buscar en un campo específico: usa el nombre del campo, dos puntos y luego tu consulta, p. ej. <code>title:foo</code>, <code>date:1911</code>, <code>subject:tree</code>. En esta colección puedes usar {{ fields | join: ", " }}.</li>
+                    <li>Comodines: agrega <code>*</code> para coincidir con cualquier carácter(es), p. ej. <code>foo*</code>, <code>*oo</code>. Esto es útil para usar una raíz y encontrar palabras con todas las terminaciones relacionadas.</li>
+                    <li>Coincidencia aproximada: agrega <code>~</code> más un número al final de tu consulta para especificar un nivel más alto de aproximación en la búsqueda, p. ej. <code>foo~1</code>. Esto puede ayudar con errores ortográficos.</li>
+                    <li>Aumentar relevancia de término: agrega <code>^</code> más un número para aumentar la relevancia de un término en tu consulta, p. ej. <code>foo^10</code>. Esto puede ayudar a reducir el desorden de resultados no relacionados si uno de tus términos es el más importante.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ content }}
+
+<div class="ms-3 mt-3">
+    <form class="" role="search" id="lunrSearch" onsubmit="lunr_search(); return false;">
+        <div class="input-group input-group-lg">
+            <input id="lunrSearchBox" class="form-control " type="text" placeholder="Enter your search term..." >
+            <button class="btn btn-success" type="submit">
+                Search
+            </button>
+        </div>
+    </form>
+    
+    <table id="lunrResults" class="table table-responsive"></table>
+</div>
+
+<div class="mt-3">
+    <p class="text-muted">Fuzzy search powered by <a href="https://lunrjs.com/" target="_blank" rel="noopener">Lunr.js</a>. <em>May take a second to load large collections!</em></p>
+</div>

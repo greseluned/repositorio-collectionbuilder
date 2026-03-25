@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Newspaper Viewer (OpenSeadragon)</title>
+
+<link rel="stylesheet" href="https://viewer.library.wales/viewer-custom.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>
+
+<style>
+  #osd {
+    width: 100%;
+    height: 800px;
+    border: 1px solid #88ea1230;
+    background: #171717
+  }
+
+  #osd-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+    padding: 0.25em;
+    background: #1f1f1f;
+    border: 1px solid #333;
+    border-radius: 6px;
+    margin-bottom: 0.4em;
+  }
+
+  #osd-controls button {
+    background: #2a2a2a;
+    color: #eee;
+    border: 1px solid #444;
+    padding: 0.15em 0.4em;
+    font-size: 0.8em;
+    line-height: 1;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  #osd-controls button:hover {
+    background: #3a3a3a;
+  }
+
+  #osd-controls button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  #page-indicator {
+    color: #bbb;
+    font-size: 0.75em;
+    margin-left: auto;
+  }
+
+  .text-region {
+    border: 2px solid rgba(96, 132, 5, 0.2);
+    background: rgba(127, 175, 7, 0.1);
+    cursor: pointer;
+  }
+
+  .text-region:hover {
+    border: 2px solid rgba(96, 132, 5, 0.457);
+    background: rgba(127, 175, 7, 0.463);
+  }
+
+  .text-region.active {
+    border-color: rgba(31, 135, 0, 0.8);
+    background: rgba(27, 108, 2, 0.5);
+  }
+
+  #region-list {
+    max-height: 600px;
+    overflow-y: auto;
+    padding: 0.5em;
+  }
+
+  .region-wrapper {
+    margin-bottom: 0.5em;
+  }
+
+  .region-button {
+    display: block;
+    width: 100%;
+    padding: 0.4em 0.6em;    
+    text-align: left;
+    background: rgba(234, 238, 225, 0.85);
+    border: 1px solid rgba(84, 114, 6, 0.35);
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: 500;       
+    font-size: 0.85em;      
+    line-height: 1.2;
+  }
+
+  .region-button:hover {
+    background: rgba(210, 220, 190, 0.9);
+  }
+
+  .region-content {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0 1em;
+    border-left: 3px solid rgba(131, 232, 0, 0.341);
+    background: rgba(255, 255, 255, 0.05);
+    transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.25s ease;
+  }
+
+  .region-content.open {
+    max-height: 400px;
+    overflow-y: auto;
+    opacity: 1;
+    padding: 0.5em 1em;
+    margin-top: 0.25em;
+    text-align: left;
+  }
+
+  .region-text {
+    white-space: pre-wrap;
+    font-size: 0.85em;
+    line-height: 1.5;
+    color: #ddd;
+    margin-bottom: 0.5em;
+  }
+
+  .text-line {
+    padding: 0.2em 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .text-line:last-child {
+    border-bottom: none;
+  }
+
+  h3 {
+    color: #000000;
+    margin-top: 1em;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="osd-controls">
+  <button id="prev-page">← Anterior</button>
+  <button id="next-page">Siguiente →</button>
+  <span id="page-indicator">Página 1 / N</span>
+</div>
+
+<div id="osd"></div>
+
+<h3>Transcripciones OCR</h3>
+
+<div id="region-list"></div>
+
+<script>
+const MANIFEST_URL = '{{ page.object_location | relative_url }}';
+
+let viewer;
+let pages = [];
+let currentPage = 0;
+
+// ================================
+// INIT
+// ================================
+async function init() {
+  try {
+    const response = await fetch(MANIFEST_URL);
+    if (!response.ok) {
+      throw new Error(`Failed to load manifest: ${response.status}`);
+    }
+    
+    const manifest = await response.json();
+    pages = manifest.pages;
+    
+    console.log('Manifest loaded:', manifest);
+    console.log('Pages:', pages.length);
+
+    viewer = OpenSeadragon({
+      id: "osd",
+      prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
+      showNavigator: true,
+      showRotationControl: true,
+      gestureSettingsMouse: {
+        clickToZoom: false
+      }
+    });
+
+    document.getElementById("prev-page").onclick = () => {
+      if (currentPage > 0) loadPage(currentPage - 1);
+    };
+
+    document.getElementById("next-page").onclick = () => {
+      if (currentPage < pages.length - 1) loadPage(currentPage + 1);
+    };
+
+    loadPage(0);
+  } catch (error) {
+    console.error('Initialization error:', error);
+    document.getElementById('region-list').innerHTML = 
+      `<p style="color: red;">Error loading manifest: ${error.message}</p>`;
+  }
+}
+
+// ================================
+// LOAD PAGE
+// ================================
+function loadPage(index) {
+  currentPage = index;
+  const pageData = pages[index];
+  
+  console.log('Loading page:', index + 1, pageData);
+  
+  // Build tile source URL
+  const tileSource = {
+    type: "image",
+    url: '{{ site.baseurl }}/' + pageData.image,
+    buildPyramid: true
+  };
+  
+  console.log('Tile source URL:', tileSource.url);
+  
+  viewer.open(tileSource);
+  
+  viewer.addOnceHandler('open', () => {
+    viewer.clearOverlays();
+    renderRegions(viewer, pageData);
+    updatePageIndicator();
+  });
+}
+
+// ================================
+// RENDER REGIONS
+// ================================
+function renderRegions(viewer, pageData) {
+  const container = document.getElementById("region-list");
+  container.innerHTML = "";
+
+  if (!pageData.textRegions || pageData.textRegions.length === 0) {
+    container.innerHTML = '<p style="color: #999;">No hay regiones de texto en esta página.</p>';
+    return;
+  }
+
+  const tiledImage = viewer.world.getItemAt(0);
+  if (!tiledImage) {
+    console.error('No tiled image loaded');
+    return;
+  }
+  
+  pageData.textRegions.forEach((region, idx) => {
+    const regionId = `REGION-${idx + 1}`;
+    
+    // Create overlay on the viewer
+    const overlay = document.createElement("div");
+    overlay.className = "text-region";
+    overlay.dataset.region = regionId;
+    
+    const rect = calculateBoundingBox(region.points);
+    
+    // Convert pixel coordinates to viewport coordinates
+    const viewportRect = tiledImage.imageToViewportRectangle(
+      rect.x, rect.y, rect.width, rect.height
+    );
+    
+    viewer.addOverlay({
+      element: overlay,
+      location: viewportRect
+    });
+
+    // Hover effects
+    overlay.addEventListener("mouseenter", () => {
+      overlay.classList.add("hover");
+    });
+    
+    overlay.addEventListener("mouseleave", () => {
+      overlay.classList.remove("hover");
+    });
+
+    // Click to zoom
+    new OpenSeadragon.MouseTracker({
+      element: overlay,
+      clickHandler: () => {
+        zoomToRegion(viewer, viewportRect);
+        toggleRegionContent(regionId);
+        highlightOverlay(regionId);
+      }
+    });
+
+    // Create sidebar button and content
+    const wrapper = document.createElement("div");
+    wrapper.className = "region-wrapper";
+
+    const btn = document.createElement("button");
+    btn.className = "region-button";
+    btn.textContent = `Región ${idx + 1}`;
+
+    btn.onclick = () => {
+      zoomToRegion(viewer, viewportRect);
+      toggleRegionContent(regionId);
+      highlightOverlay(regionId);
+    };
+
+    const content = document.createElement("div");
+    content.className = "region-content";
+    content.dataset.region = regionId;
+
+    // Display text lines only
+    if (region.textLines && region.textLines.length > 0) {
+      region.textLines.forEach((line, lineIdx) => {
+        const lineDiv = document.createElement("div");
+        lineDiv.className = "text-line";
+        lineDiv.textContent = line.text || "(sin texto)";
+        content.appendChild(lineDiv);
+      });
+    } else {
+      // If no text lines, show "(sin texto)"
+      content.innerHTML = '<p style="color: #999;">(sin texto)</p>';
+    }
+
+    wrapper.appendChild(btn);
+    wrapper.appendChild(content);
+    container.appendChild(wrapper);
+  });
+}
+
+// ================================
+// CALCULATE BOUNDING BOX
+// ================================
+function calculateBoundingBox(points) {
+  const xs = points.map(p => p[0]);
+  const ys = points.map(p => p[1]);
+  
+  const minX = Math.min(...xs);
+  const minY = Math.min(...ys);
+  const maxX = Math.max(...xs);
+  const maxY = Math.max(...ys);
+  
+  return {
+    x: minX,
+    y: minY,
+    width: maxX - minX,
+    height: maxY - minY
+  };
+}
+
+// ================================
+// ZOOM TO REGION
+// ================================
+function zoomToRegion(viewer, viewportRect) {
+  viewer.viewport.fitBounds(viewportRect, true);
+}
+
+// ================================
+// TOGGLE REGION CONTENT
+// ================================
+function toggleRegionContent(regionId) {
+  document.querySelectorAll(".region-content").forEach(el => {
+    if (el.dataset.region === regionId) {
+      el.classList.toggle("open");
+    } else {
+      el.classList.remove("open");
+    }
+  });
+}
+
+// ================================
+// HIGHLIGHT OVERLAY
+// ================================
+function highlightOverlay(regionId) {
+  document.querySelectorAll(".text-region").forEach(el => {
+    if (el.dataset.region === regionId) {
+      el.classList.add("active");
+    } else {
+      el.classList.remove("active");
+    }
+  });
+}
+
+// ================================
+// UPDATE PAGE INDICATOR
+// ================================
+function updatePageIndicator() {
+  const prevBtn = document.getElementById("prev-page");
+  const nextBtn = document.getElementById("next-page");
+  const indicator = document.getElementById("page-indicator");
+  
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.disabled = currentPage === pages.length - 1;
+  
+  indicator.textContent = `Página ${currentPage + 1} / ${pages.length}`;
+}
+
+// ================================
+// START
+// ================================
+init();
+</script>
+
+</body>
+</html>

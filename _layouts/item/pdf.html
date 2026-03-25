@@ -1,0 +1,18 @@
+---
+# basic layout for PDF documents
+# Displays image_small if available, with fall back to image_thumb, or a pdf icon.
+layout: item/item-page-base
+---
+
+<div class="card mb-4 text-center">
+
+    {% include item/pdf-osd.html %}
+
+    <div class="card-body">
+
+        {% include item/download-buttons.html %}
+
+        </div>
+
+    </div>
+</div>
