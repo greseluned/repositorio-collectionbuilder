@@ -8,7 +8,7 @@
 #
 # featured image is used in home page banner and in meta markup to represent the collection
 # use either an objectid (from an item in this collect), a relative location of an image in this repo, or a full url to an image elsewhere
-featured-image: "https://tile.loc.gov/image-services/iiif/service:ndnp:prru:batch_prru_delfin_ver01:data:sn91099747:00271765915:1891072001:0323/full/full/0/default.jpg"
+featured-image: "objects/newspapers/La_Vanguardia/images/La_Vanguardia_13-04-1944_page-3.jpg"
 # optional: add extra padding around collection title for a larger image feature. 
 home-title-y-padding: 5em # the margin from the top your title portion will appear.
 # optional: change position of background image, center, top, bottom
