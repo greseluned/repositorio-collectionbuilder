@@ -181,7 +181,7 @@ def process_folder(folder_path):
         print(f"✓ Generated: {out_path}\n")
 
 def main():
-    ROOT = r"C:\Users\Nuria\Documents\GRESEL\repositorio\demo-gresel\objects\newspapers"
+    ROOT = r"./repositorio-collectionbuilder/objects/newspapers"
     
     print("=" * 60)
     print("PAGE XML to JSON Converter")
