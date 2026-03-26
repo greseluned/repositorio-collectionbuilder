@@ -10,7 +10,7 @@
 # site domain, full URL to the production location of your collection
 url: https://greseluned.github.io
 # path to location on the domain if necessary e.g. /digital/hjccc
-baseurl: /demo-gresel
+baseurl: /repositorio-collectionbuilder
 # location of code, the full url to your github repository
 source-code: https://github.com/greseluned/repositorio-collectionbuilder
 
