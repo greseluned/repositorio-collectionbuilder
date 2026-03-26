@@ -8,7 +8,7 @@
 #
 # featured image is used in home page banner and in meta markup to represent the collection
 # use either an objectid (from an item in this collect), a relative location of an image in this repo, or a full url to an image elsewhere
-featured-image: "objects/Excelsior_10-09-1932_page-15_cropped.jpg"
+featured-image: "objects/featured_image.jpg"
 # optional: add extra padding around collection title for a larger image feature. 
 home-title-y-padding: 7em # the margin from the top your title portion will appear.
 # optional: change position of background image, center, top, bottom
