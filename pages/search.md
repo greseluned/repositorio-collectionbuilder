@@ -1,5 +1,5 @@
 ---
-title: Site Search
+title: Buscador
 layout: search
 permalink: /search/
 ---
