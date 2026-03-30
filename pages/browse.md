@@ -1,7 +1,7 @@
 ---
-title: Browse
+title: Explorar
 layout: browse
 permalink: /browse.html
 ---
 
-## Browse Items
+## Explorar periódicos
