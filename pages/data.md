@@ -4,7 +4,7 @@ layout: data
 permalink: /data.html
 ---
 
-## Metadata de la colección
+## Metadatos de la colección
 
 La tabla siguiente permite ordenar y realizar búsquedas básicas en el contenido de la colección. 
 Utiliza el botón «CSV» de abajo para descargar los metadatos filtrados que se muestran en la página.
