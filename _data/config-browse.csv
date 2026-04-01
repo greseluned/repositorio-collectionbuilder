@@ -1,8 +1,8 @@
 field,display_name,btn,hidden,sort_name
-date,Date,,,Fecha
-creator,Creator,,,
+date,Fecha,,,Fecha
+creator,Creador,,,
 subject,,true
 location,,true,,Lugar
 identifier,,,true,Identificador
-object_transcript,Object Transcript,,true,
-object_location,Object Location,,true
+object_transcript,Transcripción del periódico,,true,
+object_location,Lugar del artículo,,true
