@@ -6,21 +6,7 @@
 
             <h2 class="h4"><a href="{{ '/' | relative_url }}" class="text-white">{{ site.title }}</a></h2>
             <p class="text-white"><small>{{ site.description }}</small></p>
-            <nav>
-                <ul id="footer-nav" class="nav nav-pills ">
-                    {%- assign navItems = site.data.config-nav | where_exp: 'item', 'item.dropdown_parent == nil' -%}
-                    {% for nav in navItems %}
-                    <li class="nav-item">
-                    {% if nav.stub %}
-                        <a class="nav-link text-light{% if page.url == nav.stub %} active{% endif %}" href="{{ nav.stub | relative_url }}">{{ nav.display_name }}</a>
-                    {%- else -%}
-                    {% assign childStub = site.data.config-nav | where_exp: 'item', 'item.dropdown_parent == nav.display_name' | first %}
-                        <a class="nav-link text-light{% if page.url == childStub.stub %} active{% endif %}" href="{{ childStub.stub | relative_url }}">{{ nav.display_name }}</a>
-                    {% endif %}
-                    </li>
-                    {%- endfor -%}
-                </ul>
-            </nav>
+            
 
         </div>
 
@@ -45,7 +31,7 @@
     </div>
 
     <div class="col-md-12 text-center pt-3 pb-1">
-        <p class="text-white">Actualizado por última vez en {{ site.time | date: '%M%Y' }}</p>
+        <p class="text-white">Actualizado por última vez en {{ site.time | date: '%Y' }}</p>
     </div>
 
 </footer>
