@@ -60,10 +60,10 @@ custom-foot: js/timeline-js.html
 <div class="float-end" id="timeline-filters">
     <div class="dropdown d-inline-block" id="year-nav">
         <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="yearButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span id="yearButtonText">Year</span>
+            <span id="yearButtonText">Año</span>
         </button>
         <div class="dropdown-menu" aria-labelledby="yearButton">
-            <a class="dropdown-item year-filter-option" href="#" data-year="">All Years</a>
+            <a class="dropdown-item year-filter-option" href="#" data-year="">Todos los años</a>
             <div class="dropdown-divider"></div>
             {% for y in uniqueYears %}
             <a class="dropdown-item year-filter-option" href="#" data-year="{{ y }}">{{ y }}</a>{% endfor %}
@@ -233,7 +233,7 @@ custom-foot: js/timeline-js.html
         const visibleCount = Array.from(timelineItems).filter(item => 
             item.style.display !== 'none'
         ).length;
-        console.log(`Showing ${visibleCount} of ${timelineItems.length} items`);
+        console.log(`Mostrando ${visibleCount} de ${timelineItems.length} elementos`);
     }
     
     // Day filter click handlers
@@ -244,7 +244,7 @@ custom-foot: js/timeline-js.html
             
             // Update button text
             if (dayButtonText) {
-                dayButtonText.textContent = selectedDay ? 'Day: ' + selectedDay : 'Day';
+                dayButtonText.textContent = selectedDay ? 'Día: ' + selectedDay : 'Día';
             }
             
             // Update active state
@@ -263,7 +263,7 @@ custom-foot: js/timeline-js.html
             
             // Update button text
             if (monthButtonText) {
-                monthButtonText.textContent = selectedMonth ? this.textContent : 'Month';
+                monthButtonText.textContent = selectedMonth ? this.textContent : 'Mes';
             }
             
             // Update active state
