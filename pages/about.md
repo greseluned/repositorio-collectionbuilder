@@ -8,9 +8,9 @@ credits: true
 # Look in _includes/feature for options to easily add features to the page
 ---
 
-{% include feature/jumbotron.html objectid="https://tile.loc.gov/image-services/iiif/service:ndnp:prru:batch_prru_delfin_ver01:data:sn91099747:00271765915:1891072001:0323/full/full/0/default.jpg" %} 
+{% include feature/jumbotron.html objectid="objects/La_Vanguardia_09-09-1944_page-2_cropped.jpg" %} 
 
-## About CollectionBuilder-CSV and IIIF
+## Sobre el repositorio
 
 This is a CollectionBuilder-CSV template featuring single- and multi-page IIIF objects displayed in Universal Viewer.
 
