@@ -7,8 +7,8 @@
     background-position: {{ site.data.theme.home-banner-image-position | default: 'center' }};
 }
 #home-title-box {
-    padding-top: {{ site.data.theme.home-title-y-padding | default: '2em' }};
-    padding-bottom: {{ site.data.theme.home-title-y-padding | default: '2em' }};
+    padding-top: {{ site.data.theme.home-title-y-padding | default: '5em' }};
+    padding-bottom: {{ site.data.theme.home-title-y-padding | default: '5em' }};
 }
 @media screen and (max-width: 576px) {
     #home-title-box {
@@ -33,7 +33,7 @@
     </div>
 </div>
 {%- else -%}
-<div class="container-fluid px-5">
+<div class="container-fluid px-5 py-3">
     <div class="row align-items-center">
         <div id="title" class="{% if site.organization-logo-banner %}col-md-9{% else %}col-12{% endif %}">
             <h1 class="mt-2"><a class="text-dark" href="{{ site.baseurl }}/" >{{ site.title }}</a></h1>	 
