@@ -74,7 +74,7 @@ custom-foot: js/timeline-js.html
 
 {{ content }}
 
-<h3><a href="#y{{ uniqueYears | first }}">{{ uniqueYears | first }}</a> to <a href="#y{{ uniqueYears | last }}">{{ uniqueYears | last }}</a></h3>
+<h3><a href="#y{{ uniqueYears | first }}">{{ uniqueYears | first }}</a> a <a href="#y{{ uniqueYears | last }}">{{ uniqueYears | last }}</a></h3>
 
 <table id="timeline" class="table table-striped">
     <tbody>
@@ -158,7 +158,7 @@ custom-foot: js/timeline-js.html
             
             // Update button text
             if (yearButtonText) {
-                yearButtonText.textContent = selectedYear ? 'Year: ' + selectedYear : 'Year';
+                yearButtonText.textContent = selectedYear ? 'Año: ' + selectedYear : 'Año';
             }
             
             // Update active state
