@@ -383,9 +383,16 @@ function toggleRegionContent(regionId) {
   // Scroll the active button into view within the sidebar
   const activeBtn = document.querySelector(`.region-button[data-region="${regionId}"]`);
   if (activeBtn) {
-    activeBtn.scrollIntoView({ behavior: "smooth", block: "start" });
+    const list = document.getElementById("region-list");
+    const btnTop = activeBtn.offsetTop;
+    const btnHeight = activeBtn.offsetHeight;
+    const listHeight = list.offsetHeight;
+    list.scrollTo({
+      top: btnTop - (listHeight / 2) + (btnHeight / 2),
+      behavior: "smooth",
+      block: "start"
+    });
   }
-}
 
 // ================================
 // HIGHLIGHT OVERLAY
