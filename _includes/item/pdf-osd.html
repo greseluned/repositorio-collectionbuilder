@@ -365,7 +365,14 @@ function calculateBoundingBox(points) {
 // ZOOM TO REGION
 // ================================
 function zoomToRegion(viewer, viewportRect) {
-  viewer.viewport.fitBounds(viewportRect, true);
+  const padding = 0.1; // increase for more context around the region
+  const paddedRect = new OpenSeadragon.Rect(
+    viewportRect.x - padding,
+    viewportRect.y - padding,
+    viewportRect.width + padding * 2,
+    viewportRect.height + padding * 2
+  );
+  viewer.viewport.fitBounds(paddedRect, true);
 }
 
 // ================================
