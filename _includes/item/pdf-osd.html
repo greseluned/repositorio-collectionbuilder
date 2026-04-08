@@ -8,39 +8,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/openseadragon.min.js"></script>
 
 <style>
-  #main-layout {
-    display: flex;
-    gap: 1em;
-  }
-
-  #viewer-container {
-    flex: 3; /* takes more space */
-    display: flex;
-    flex-direction: column;
-  }
-
-  #transcription-container {
-    flex: 2; /* sidebar */
-    max-width: 400px;
-    overflow-y: auto;
-    height: 850px; /* match viewer height */
-    background: #ffffffe9;
-    border: 1px solid #333;
-    border-radius: 6px;
-    padding: 0.5em;
-  }
-
-  @media (max-width: 900px) {
-    #main-layout {
-      flex-direction: column;
-    }
-
-    #transcription-container {
-      max-width: 100%;
-      height: auto;
-    }
-  }
-
   #osd {
     width: 100%;
     height: 800px;
@@ -111,6 +78,11 @@
     margin-bottom: 0.5em;
   }
 
+  #region-list-wrapper {
+    max-height: 800px;
+    overflow-y: auto;
+  }
+
   .region-button {
     display: block;
     width: 100%;
@@ -174,21 +146,24 @@
 
 <body>
 
-<div id="main-layout">
-  <div id="viewer-container">
+<div style="display: flex; gap: 1em; align-items: flex-start;">
+
+  <!-- Left: viewer column -->
+  <div style="flex: 1; min-width: 0;">
     <div id="osd-controls">
       <button id="prev-page">← Anterior</button>
       <button id="next-page">Siguiente →</button>
       <span id="page-indicator">Página 1 / N</span>
     </div>
-  
     <div id="osd"></div>
   </div>
 
-  <div id="transcription-container">
-    <h3>Transcripciones OCR</h3>
+  <!-- Right: transcription column -->
+  <div style="width: 300px; flex-shrink: 0;">
+    <h3 style="margin-top: 0;">Transcripciones OCR</h3>
     <div id="region-list"></div>
   </div>
+
 </div>
 
 <script>
