@@ -383,7 +383,7 @@ function toggleRegionContent(regionId) {
   // Scroll the active button into view within the sidebar
   const activeBtn = document.querySelector(`.region-button[data-region="${regionId}"]`);
   if (activeBtn) {
-    activeBtn.scrollIntoView({ behavior: "smooth", block: "center" });
+    activeBtn.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 }
 
