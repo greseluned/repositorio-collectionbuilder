@@ -4,12 +4,12 @@
 
 {%- endcomment -%}
 <div class="card mb-2">
-    <div class="card-header">Source</div>
+    <div class="card-header">Fuente</div>
     <div class="card-body">
         <dl>
-            <dt>Preferred Citation:</dt>
+            <dt>Citación preferida:</dt>
             <dd>"{{ child.title | default: page.title }}", {{ site.title }}, {{ site.organization-name }}</dd>
-            <dt>Reference Link:</dt>
+            <dt>Link de referencia:</dt>
             <dd>{{ page.url | absolute_url }}#{{ child.objectid }}</dd>
         </dl>
     </div>
