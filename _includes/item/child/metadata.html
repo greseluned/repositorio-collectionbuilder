@@ -13,10 +13,10 @@
             {% if f.browse_link == "true" %}
             {% assign topics = child[f.field] | split: ";" %}
             {% for t in topics %}
-            <a class="me-3" href="{{ t | strip | url_param_escape | prepend: '/browse.html#' | relative_url }}">{{ t | strip }}</a>
+            <a class="me-3" href="{{ t | strip | url_param_escape | prepend: '/browse.html#' | relative_url }}" style="color:#ace600";>{{ t | strip }}</a>
             {% endfor %}
             {% elsif f.external_link == "true" %}
-            <a href="{{ child[f.field] }}" target="_blank" rel="noopener" style="color:#ace600">{{ child[f.field] }}</a>
+            <a href="{{ child[f.field] }}" target="_blank" rel="noopener">{{ child[f.field] }}</a>
             {% else %}
             {{ child[f.field] | replace: '""','"' }}{% endif %}
         </dd>
