@@ -146,24 +146,26 @@
 
 <body>
 
-<div style="display: flex; gap: 1em; align-items: flex-start;">
+<div style="max-width: 100%; width:70%; padding: 0 1em;">
+  <div style="display: flex; gap: 1em; align-items: flex-start;">
 
-  <!-- Left: viewer column -->
-  <div style="flex: 1; min-width: 0;">
-    <div id="osd-controls">
-      <button id="prev-page">← Anterior</button>
-      <button id="next-page">Siguiente →</button>
-      <span id="page-indicator">Página 1 / N</span>
+    <!-- Left: viewer column -->
+    <div style="flex: 1; min-width: 0;">
+      <div id="osd-controls">
+        <button id="prev-page">← Anterior</button>
+        <button id="next-page">Siguiente →</button>
+        <span id="page-indicator">Página 1 / N</span>
+      </div>
+      <div id="osd"></div>
     </div>
-    <div id="osd"></div>
-  </div>
 
-  <!-- Right: transcription column -->
-  <div style="width: 300px; flex-shrink: 0;">
-    <h3 style="margin-top: 0;">Transcripciones OCR</h3>
-    <div id="region-list"></div>
-  </div>
+    <!-- Right: transcription column -->
+    <div style="width: 300px; flex-shrink: 0;">
+      <h3 style="margin-top: 0;">Transcripciones OCR</h3>
+      <div id="region-list"></div>
+    </div>
 
+  </div>
 </div>
 
 <script>
