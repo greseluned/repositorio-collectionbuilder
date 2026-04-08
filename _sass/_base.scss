@@ -11,7 +11,7 @@ body {
 a {
     /* remove link underline */ 
     text-decoration: none;
-    @if $link-color != "" { 
+    @if $link-color != "#90c001" { 
         color: $link-color; 
         &:hover {
             @if $text-color != "" { color: $text-color; }
