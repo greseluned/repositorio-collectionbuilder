@@ -1,9 +1,9 @@
-color_class,color
+color_class,color,background-color,border-color
 primary,#ace600
 outline-primary,
 secondary,
 outline-secondary,
-success,
+success,#7fc006
 info,
 outline-info,
 warning,
