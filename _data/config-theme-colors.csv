@@ -1,8 +1,11 @@
 color_class,color
 primary,#ace600
+outline-primary,
 secondary,
+outline-secondary,
 success,
 info,
+outline-info,
 warning,
 danger,
 light,
