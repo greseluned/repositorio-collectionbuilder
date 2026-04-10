@@ -151,7 +151,7 @@ function filterItems(arr,q) {
         }
     }
     // add number 
-    document.querySelector("#numberOf").innerHTML = filteredItems.length + " de {{ items | size }} artículos";
+    document.querySelector("#numberOf").innerHTML = '<span class="d-block text-center">' + filteredItems.length + " de {{ items | size }} artículos" + '</span>';
     
     // add stuff, make cards first in giant var, then add all at once to speed things up
     var cards = "";
