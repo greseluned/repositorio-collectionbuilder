@@ -1,9 +1,10 @@
 ---
-layout: page
+layout: page-full-width
 ---
 {% assign coll = site.data.collections | where: "id", page.collection_id | first %}
 {% assign items = site.data[site.metadata] | where: "collection", page.collection_id %}
 
+<div class="container-fluid py-4">
 
   {{%-- Rich header --%}}
   <div class="row mb-3 align-items-center">
