@@ -1,0 +1,32 @@
+---
+layout: default
+---
+{% assign meta = site.data[site.metadata] %}
+
+<div class="container py-5">
+  <h1 class="mb-4">{{ page.title }}</h1>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for coll in site.data.collections %}
+      {% assign items = meta | where: "collection", coll.id %}
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          {% if coll.cover_image %}
+          <a href="{{ coll.id | prepend: '/collections/' | append: '/' | relative_url }}">
+            <img src="{{ coll.cover_image | relative_url }}" class="card-img-top" style="object-fit:cover;height:180px;" alt="{{ coll.title }}">
+          </a>
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{{ coll.id | prepend: '/collections/' | append: '/' | relative_url }}">{{ coll.title }}</a>
+            </h5>
+            {% if coll.date_start %}<p class="text-muted small mb-1">{{ coll.date_start }}–{{ coll.date_end }}</p>{% endif %}
+            <p class="card-text small">{{ coll.description }}</p>
+          </div>
+          <div class="card-footer text-muted small">
+            {{ items.size }} números
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,20 @@
+- id: la-vanguardia
+  title: "La Vanguardia"
+  description: "Ediciones históricas de La Vanguardia."
+  #cover_image: "objects/la-vanguardia-cover.jpg"   # path to a representative image
+  date_start: 1920
+  date_end: 1936
+
+- id: accion-libertaria
+  title: "Acción Libertaria"
+  description: "Colección de Acción Libertaria."
+  #cover_image: "objects/el-debate-cover.jpg"
+  date_start: 1921
+  date_end: 1935
+
+- id: accion-consciente
+  title: "Acción Consciente"
+  description: "Colección de Acción Consciente."
+  #cover_image: "objects/el-debate-cover.jpg"
+  date_start: 1921
+  date_end: 1935

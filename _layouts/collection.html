@@ -1,0 +1,45 @@
+---
+layout: default
+---
+{% assign coll = site.data.collections | where: "id", page.collection_id | first %}
+{% assign items = site.data[site.metadata] | where: "collection", page.collection_id %}
+
+<div class="container-fluid py-4">
+
+  {{%-- Rich header --%}}
+  <div class="row mb-4 align-items-center">
+    {% if coll.cover_image %}
+    <div class="col-md-3">
+      <img src="{{ coll.cover_image | relative_url }}" class="img-fluid rounded shadow" alt="{{ coll.title }}">
+    </div>
+    {% endif %}
+    <div class="col">
+      <h1 class="display-5">{{ coll.title }}</h1>
+      {% if coll.date_start %}<p class="text-muted mb-1">{{ coll.date_start }}–{{ coll.date_end }}</p>{% endif %}
+      <p class="lead">{{ coll.description }}</p>
+      <span class="badge bg-secondary fs-6">{{ items.size }} {{ items.size | pluralize: "número", "números" }}</span>
+    </div>
+  </div>
+
+  {{%-- Item grid --%}}
+  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+    {% for item in items %}
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        {% if item.image_thumb %}
+        <a href="{{ '/items/' | append: item.objectid | append: '.html' | relative_url }}">
+          <img src="{{ item.image_thumb | relative_url }}" class="card-img-top" alt="{{ item.title }}">
+        </a>
+        {% endif %}
+        <div class="card-body p-2">
+          <p class="card-title small fw-bold mb-0">
+            <a href="{{ '/items/' | append: item.objectid | append: '.html' | relative_url }}">{{ item.title }}</a>
+          </p>
+          {% if item.date %}<p class="card-text text-muted" style="font-size:0.75rem;">{{ item.date }}</p>{% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
