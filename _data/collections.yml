@@ -18,3 +18,17 @@
   #cover_image: "objects/el-debate-cover.jpg"
   date_start: 1921
   date_end: 1935
+
+- id: prensa-generalista-filipina
+  title: Prensa Generalista Filipina
+  description: ""
+  #cover_image: "objects/el-debate-cover.jpg"
+  date_start: 1921
+  date_end: 1935
+
+- id: prensa-femenina
+  title: Prensa Femenina
+  description: ""
+  #cover_image: "objects/el-debate-cover.jpg"
+  date_start: 1921
+  date_end: 1935
