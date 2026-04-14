@@ -1,13 +1,12 @@
 ---
-layout: default
+layout: page
 ---
 {% assign coll = site.data.collections | where: "id", page.collection_id | first %}
 {% assign items = site.data[site.metadata] | where: "collection", page.collection_id %}
 
-<div class="container-fluid py-4">
 
   {{%-- Rich header --%}}
-  <div class="row mb-4 align-items-center">
+  <div class="row mb-3 align-items-center">
     {% if coll.cover_image %}
     <div class="col-md-3">
       <img src="{{ coll.cover_image | relative_url }}" class="img-fluid rounded shadow" alt="{{ coll.title }}">

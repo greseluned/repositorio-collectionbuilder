@@ -1,10 +1,10 @@
 ---
-layout: default
+layout: page
 ---
 {% assign meta = site.data[site.metadata] %}
 
 <div class="container py-5">
-  <h1 class="mb-4">{{ page.title }}</h1>
+  <h1 class="mb-3 justify-content-center">{{ page.title }}</h1>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     {% for coll in site.data.collections %}
       {% assign items = meta | where: "collection", coll.id %}
@@ -23,7 +23,7 @@ layout: default
             <p class="card-text small">{{ coll.description }}</p>
           </div>
           <div class="card-footer text-muted small">
-            {{ items.size }} números
+            {{ items.size }} número(s)
           </div>
         </div>
       </div>
