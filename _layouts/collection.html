@@ -17,7 +17,6 @@ layout: page
       <h1 class="display-5">{{ coll.title }}</h1>
       {% if coll.date_start %}<p class="text-muted mb-1">{{ coll.date_start }}–{{ coll.date_end }}</p>{% endif %}
       <p class="lead">{{ coll.description }}</p>
-      <span class="badge bg-secondary fs-6">{{ items.size }} {{ items.size | pluralize: "número", "números" }}</span>
     </div>
   </div>
 
