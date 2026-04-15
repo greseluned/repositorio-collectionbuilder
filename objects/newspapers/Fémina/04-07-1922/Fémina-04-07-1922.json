@@ -5,7 +5,7 @@
       "page": 1,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-1.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-1.jpg",
       "textRegions": [
         {
           "id": "r_4",
@@ -3062,7 +3062,7 @@
       "page": 2,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-2.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-2.jpg",
       "textRegions": [
         {
           "id": "r",
@@ -5917,7 +5917,7 @@
       "page": 3,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-3.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-3.jpg",
       "textRegions": [
         {
           "id": "r_7",
@@ -7814,7 +7814,7 @@
       "page": 4,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-4.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-4.jpg",
       "textRegions": [
         {
           "id": "r_2",
@@ -8142,7 +8142,7 @@
       "page": 5,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-5.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-5.jpg",
       "textRegions": [
         {
           "id": "r_5",
@@ -11718,7 +11718,7 @@
       "page": 6,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-6.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-6.jpg",
       "textRegions": [
         {
           "id": "r_2",
@@ -14378,7 +14378,7 @@
       "page": 7,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-7.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-7.jpg",
       "textRegions": [
         {
           "id": "r_5",
@@ -17319,7 +17319,7 @@
       "page": 8,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-8.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-8.jpg",
       "textRegions": [
         {
           "id": "r_5",
@@ -17631,7 +17631,7 @@
       "page": 9,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-9.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-9.jpg",
       "textRegions": [
         {
           "id": "r_6",
@@ -20984,7 +20984,7 @@
       "page": 10,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-10.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-10.jpg",
       "textRegions": [
         {
           "id": "r_1",
@@ -23107,7 +23107,7 @@
       "page": 11,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-11.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-11.jpg",
       "textRegions": [
         {
           "id": "r",
@@ -24593,7 +24593,7 @@
       "page": 12,
       "width": 2479,
       "height": 3508,
-      "image": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-12.jpg",
+      "image": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-12.jpg",
       "textRegions": [
         {
           "id": "r",
@@ -25938,62 +25938,62 @@
   "tileSources": [
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-1.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-1.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-2.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-2.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-3.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-3.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-4.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-4.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-5.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-5.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-6.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-6.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-7.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-7.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-8.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-8.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-9.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-9.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-10.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-10.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-11.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-11.jpg",
       "buildPyramid": true
     },
     {
       "type": "image",
-      "url": "objects/newspapers/Fémina/images/Fémina-04-07-1922_page-12.jpg",
+      "url": "objects/newspapers/Fémina/04-07-1922/images/Fémina-04-07-1922_page-12.jpg",
       "buildPyramid": true
     }
   ]

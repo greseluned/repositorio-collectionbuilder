@@ -78,7 +78,7 @@ def parse_page_xml(xml_path, image_path, page_number, actual_img_width=None, act
             page["textRegions"].append(region)
     return page
 
-def process_date_folder(date_folder_path, newspaper_name):
+def process_date_folder(date_folder_path, newspaper_name, date_folder):
     files = os.listdir(date_folder_path)
 
     # images/ está dentro de la carpeta de fecha
@@ -107,7 +107,7 @@ def process_date_folder(date_folder_path, newspaper_name):
             image_filename = f"{base}_page-{page_num}.jpg"
 
             # Ruta relativa actualizada
-            image_path = f"objects/newspapers/{newspaper_name}/{base}/images/{image_filename}"
+            image_path = f"objects/newspapers/{newspaper_name}/{date_folder}/images/{image_filename}"
             full_image_path = os.path.join(images_folder, image_filename)
 
             actual_width, actual_height = None, None
@@ -162,7 +162,7 @@ def main():
                 continue
 
             print(f"  📅 Fecha: {date_folder}")
-            process_date_folder(date_folder_path, newspaper_name)
+            process_date_folder(date_folder_path, newspaper_name, date_folder)
 
 if __name__ == "__main__":
     main()
