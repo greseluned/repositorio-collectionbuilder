@@ -4,11 +4,36 @@ layout: page
 {% assign meta = site.data[site.metadata] %}
 
 <div class="container py-4">
-  <h1>{{ page.title }}</h1>
-  <ul class="list-group list-group-flush">
+
+  <div class="row mb-3 g-2 align-items-center">
+    <div class="col-md-6">
+      <input type="text" id="collFilter" class="form-control" placeholder="Filtrar colecciones...">
+    </div>
+    <div class="col-md-4">
+      <select id="collSort" class="form-select">
+        <option value="default">Orden predeterminado</option>
+        <option value="alpha-asc">Nombre (A→Z)</option>
+        <option value="alpha-desc">Nombre (Z→A)</option>
+        <option value="count-desc">Más artículos primero</option>
+        <option value="count-asc">Menos artículos primero</option>
+        <option value="date-asc">Fecha (más antigua primero)</option>
+        <option value="date-desc">Fecha (más reciente primero)</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-outline-secondary w-100" onclick="resetControls()">Restablecer</button>
+    </div>
+  </div>
+
+  <div id="collCount" class="text-muted small mb-2"></div>
+
+  <ul class="list-group list-group-flush" id="collList">
     {% for coll in site.data.collections %}
       {% assign items = meta | where: "collection", coll.id %}
-      <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+      <li class="list-group-item d-flex justify-content-between align-items-center px-0"
+          data-title="{{ coll.title | downcase }}"
+          data-count="{{ items.size }}"
+          data-date="{{ coll.date_start | default: 0 }}">
         <a href="{{ coll.id | prepend: '/collections/' | append: '/' | relative_url }}">
           {{ coll.title }}
         </a>
@@ -16,4 +41,57 @@ layout: page
       </li>
     {% endfor %}
   </ul>
+
 </div>
+
+<script>
+const list = document.getElementById("collList");
+const countEl = document.getElementById("collCount");
+const filterInput = document.getElementById("collFilter");
+const sortSelect = document.getElementById("collSort");
+
+function getItems() {
+  return Array.from(list.querySelectorAll("li"));
+}
+
+function update() {
+  const query = filterInput.value.toLowerCase().trim();
+  const sort = sortSelect.value;
+  let items = getItems();
+
+  // Filter
+  items.forEach(li => {
+    const match = !query || li.dataset.title.includes(query);
+    li.style.display = match ? "" : "none";
+  });
+
+  // Sort
+  const visible = items.filter(li => li.style.display !== "none");
+  visible.sort((a, b) => {
+    switch (sort) {
+      case "alpha-asc":  return a.dataset.title.localeCompare(b.dataset.title);
+      case "alpha-desc": return b.dataset.title.localeCompare(a.dataset.title);
+      case "count-desc": return +b.dataset.count - +a.dataset.count;
+      case "count-asc":  return +a.dataset.count - +b.dataset.count;
+      case "date-asc":   return +a.dataset.date - +b.dataset.date;
+      case "date-desc":  return +b.dataset.date - +a.dataset.date;
+      default:           return 0;
+    }
+  });
+  visible.forEach(li => list.appendChild(li));
+
+  // Count
+  countEl.textContent = visible.length + " colección" + (visible.length !== 1 ? "es" : "");
+}
+
+function resetControls() {
+  filterInput.value = "";
+  sortSelect.value = "default";
+  update();
+}
+
+filterInput.addEventListener("input", update);
+sortSelect.addEventListener("change", update);
+
+update();
+</script>
