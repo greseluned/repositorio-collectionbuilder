@@ -78,8 +78,11 @@ def parse_page_xml(xml_path, image_path, page_number, actual_img_width=None, act
             page["textRegions"].append(region)
     return page
 
-def process_date_folder(date_folder_path, newspaper_name, images_folder):
+def process_date_folder(date_folder_path, newspaper_name):
     files = os.listdir(date_folder_path)
+
+    # images/ está dentro de la carpeta de fecha
+    images_folder = os.path.join(date_folder_path, "images")
 
     xmls = {}
 
@@ -91,7 +94,6 @@ def process_date_folder(date_folder_path, newspaper_name, images_folder):
             xmls.setdefault(base, []).append((page, f))
 
     for base, pages_list in xmls.items():
-        # Saltar si ya existe el JSON
         out_path = os.path.join(date_folder_path, f"{base}.json")
         if os.path.exists(out_path):
             print(f"  ⏭ Ya existe: {base}.json, saltando...")
@@ -103,7 +105,9 @@ def process_date_folder(date_folder_path, newspaper_name, images_folder):
         for page_num, xml_file in sorted(pages_list):
             xml_path = os.path.join(date_folder_path, xml_file)
             image_filename = f"{base}_page-{page_num}.jpg"
-            image_path = f"objects/newspapers/{newspaper_name}/images/{image_filename}"
+
+            # Ruta relativa actualizada
+            image_path = f"objects/newspapers/{newspaper_name}/{base}/images/{image_filename}"
             full_image_path = os.path.join(images_folder, image_filename)
 
             actual_width, actual_height = None, None
@@ -136,8 +140,8 @@ def process_date_folder(date_folder_path, newspaper_name, images_folder):
             json.dump(output, f, indent=2, ensure_ascii=False)
 
         print(f"  ✓ Generado: {out_path}")
-        
-        
+
+
 def main():
     ROOT = r"./objects/newspapers"
 
@@ -145,26 +149,20 @@ def main():
     print("PAGE XML to JSON Converter")
     print("=" * 60)
 
-    # Iterar por cada periódico (Accion_Consciente, La_Vanguardia, etc.)
     for newspaper_name in os.listdir(ROOT):
         newspaper_path = os.path.join(ROOT, newspaper_name)
         if not os.path.isdir(newspaper_path):
             continue
 
-        images_folder = os.path.join(newspaper_path, "images")
-
         print(f"\n📰 Periódico: {newspaper_name}")
 
-        # Iterar por cada carpeta de fecha (10-01-1923, 25-10-1923, etc.)
         for date_folder in os.listdir(newspaper_path):
             date_folder_path = os.path.join(newspaper_path, date_folder)
-
-            # Saltar si no es carpeta o es la carpeta images/
-            if not os.path.isdir(date_folder_path) or date_folder == "images":
+            if not os.path.isdir(date_folder_path):
                 continue
 
             print(f"  📅 Fecha: {date_folder}")
-            process_date_folder(date_folder_path, newspaper_name, images_folder)
+            process_date_folder(date_folder_path, newspaper_name)
 
 if __name__ == "__main__":
     main()
