@@ -20,21 +20,52 @@ layout: page
     </div>
   </div>
 
+  {{%-- Controls --%}}
+  <div class="row mb-3 g-2 align-items-center">
+    <div class="col-md-6">
+      <input type="text" class="form-control" id="itemFilter" placeholder="Filtrar...">
+    </div>
+    <div class="col-md-4">
+      <select class="form-select" id="itemSort">
+        <option value="default">Orden predeterminado</option>
+        <option value="alpha-asc">Nombre (A→Z)</option>
+        <option value="alpha-desc">Nombre (Z→A)</option>
+        <option value="date-asc">Fecha (más antigua primero)</option>
+        <option value="date-desc">Fecha (más reciente primero)</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-outline-secondary w-100" style="background-color: #7fc006; border-color: #659a02; color: #000000" onclick="resetControls()">Restablecer</button>
+    </div>
+  </div>
+
+  <div class="text-muted small mb-2" id="itemCount"></div>
+
+  <div id="loadingIcon" class="text-center">
+    <div class="spinner-border text-dark" role="status"><span class="visually-hidden">Cargando...</span></div>
+  </div>
+
   {{%-- Item grid --%}}
-  <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+  <div class="row justify-content-center" id="itemGrid">
     {% for item in items %}
-    <div class="col">
-      <div class="card h-100 shadow-sm">
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-2 item-card"
+         data-title="{{ item.title | downcase }}"
+         data-date="{{ item.date }}"
+         data-transcript="{{ item.object_transcript }}"
+         data-transcript-text="">
+      <div class="card">
         {% if item.image_thumb %}
         <a href="{{ '/items/' | append: item.objectid | append: '.html' | relative_url }}">
           <img src="{{ item.image_thumb | relative_url }}" class="card-img-top" alt="{{ item.title }}">
         </a>
         {% endif %}
-        <div class="card-body p-2">
-          <p class="card-title small fw-bold mb-0">
-            <a href="{{ '/items/' | append: item.objectid | append: '.html' | relative_url }}">{{ item.title }}</a>
-          </p>
-          {% if item.date %}<p class="card-text text-muted" style="font-size:0.75rem;">{{ item.date }}</p>{% endif %}
+        <div class="card-body text-center p-2">
+          <h3 class="card-title h5">
+            <a href="{{ '/items/' | append: item.objectid | append: '.html' | relative_url }}" class="text-dark">{{ item.title }}</a>
+          </h3>
+          {% if item.date %}<p class="card-text">{{ item.date }}</p>{% endif %}
+          <hr>
+          <a href="{{ '/items/' | append: item.objectid | append: '.html' | relative_url }}" class="btn btn-sm btn-light">Ver entrada completa</a>
         </div>
       </div>
     </div>
@@ -42,3 +73,81 @@ layout: page
   </div>
 
 </div>
+
+<style>
+  .item-card.hidden { display: none !important; }
+</style>
+
+<script>
+const grid = document.getElementById("itemGrid");
+const countEl = document.getElementById("itemCount");
+const filterInput = document.getElementById("itemFilter");
+const sortSelect = document.getElementById("itemSort");
+const loadingIcon = document.getElementById("loadingIcon");
+
+// Load transcripts
+async function loadTranscripts() {
+  loadingIcon.classList.remove("d-none");
+  const cards = Array.from(grid.querySelectorAll(".item-card"));
+
+  await Promise.all(cards.map(async (card) => {
+    const path = card.dataset.transcript;
+    if (!path) return;
+    try {
+      const response = await fetch("{{ '/' | relative_url }}" + path.trim());
+      if (!response.ok) return;
+      card.dataset.transcriptText = (await response.text()).toLowerCase();
+    } catch (e) {}
+  }));
+
+  loadingIcon.classList.add("d-none");
+}
+
+function getCards() {
+  return Array.from(grid.querySelectorAll(".item-card"));
+}
+
+function update() {
+  const query = filterInput.value.toLowerCase().trim();
+  const sort = sortSelect.value;
+  const cards = getCards();
+  const visible = [];
+
+  cards.forEach(card => {
+    const inTitle = card.dataset.title.includes(query);
+    const inTranscript = card.dataset.transcriptText && card.dataset.transcriptText.includes(query);
+    if (!query || inTitle || inTranscript) {
+      card.classList.remove("hidden");
+      visible.push(card);
+    } else {
+      card.classList.add("hidden");
+    }
+  });
+
+  // Sort
+  visible.sort((a, b) => {
+    switch (sort) {
+      case "alpha-asc":  return a.dataset.title.localeCompare(b.dataset.title);
+      case "alpha-desc": return b.dataset.title.localeCompare(a.dataset.title);
+      case "date-asc":   return a.dataset.date.localeCompare(b.dataset.date);
+      case "date-desc":  return b.dataset.date.localeCompare(a.dataset.date);
+      default:           return 0;
+    }
+  });
+  visible.forEach(card => grid.appendChild(card));
+
+  // Count
+  countEl.textContent = visible.length === 1 ? "1 artículo" : visible.length + " artículos";
+}
+
+function resetControls() {
+  filterInput.value = "";
+  sortSelect.value = "default";
+  update();
+}
+
+filterInput.addEventListener("input", update);
+sortSelect.addEventListener("change", update);
+
+loadTranscripts().then(() => update());
+</script>
