@@ -1,5 +1,5 @@
 ---
 layout: search
 title: Buscar
-permalink: /search/
+permalink: /advanced/
 ---
