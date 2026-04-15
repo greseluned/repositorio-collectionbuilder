@@ -12,13 +12,14 @@ custom-foot: js/browse-js.html
       <input type="text" class="form-control" id="filterTextBox" placeholder="Filtrar..." aria-label="Buscar">
     </div>
     <div class="col-md-4">
-      <select class="form-select" id="browseSortSelect">
-        <option value="random">Aleatorio</option>
-        <option value="title">Nombre</option>
-        {% assign sort_options = site.data.config-browse | where_exp: 'i','i.sort_name != nil' %}
-        {% for o in sort_options %}
-        <option value="{{ o.field | escape }}">{{ o.sort_name }}</option>
-        {% endfor %}
+      <select class="form-select" id="collSort">
+        <option value="default">Orden predeterminado</option>
+        <option value="alpha-asc">Nombre (A→Z)</option>
+        <option value="alpha-desc">Nombre (Z→A)</option>
+        <option value="count-desc">Más artículos primero</option>
+        <option value="count-asc">Menos artículos primero</option>
+        <option value="date-asc">Fecha (más antigua primero)</option>
+        <option value="date-desc">Fecha (más reciente primero)</option>
       </select>
     </div>
     <div class="col-md-2">
