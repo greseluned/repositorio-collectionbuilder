@@ -1,6 +1,6 @@
 - id: la-vanguardia
   title: "La Vanguardia"
-  description: "Ediciones históricas de La Vanguardia."
+  description: "Colección de La Vanguardia."
   #cover_image: "objects/la-vanguardia-cover.jpg"   # path to a representative image
   date_start: 1920
   date_end: 1936
