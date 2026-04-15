@@ -3,246 +3,266 @@
 {% else %}
 {%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid and item.parentid == nil' -%}
 {% endif %}
-
+{%- assign fields = site.data.config-browse -%}
 <script>
 
-/* =========================
-ITEMS (desde CSV)
-========================= */
+/* add items */
 var items = [
-{% for item in items %}
-{
-    "id": {{ item.objectid | jsonify }},
-    "title": {{ item.title | jsonify }},
-    "location": {{ item.location | jsonify }},
-    "date": {{ item.date | jsonify }},
-    "collection": {{ item.collection | jsonify }},
-    "object_transcript": {{ item.object_transcript | jsonify }},
-    "transcript_text": ""
-}
-{% unless forloop.last %},{% endunless %}
-{% endfor %}
+    {% for item in items %}
+    { {% for f in fields %}{% if item[f.field] %}{{ f.field | escape | jsonify }}:{{ item[f.field] | strip | jsonify }}, {%- endif -%}{%- endfor -%}
+        {% if item.image_thumb %}"img": {{ item.image_thumb | relative_url | jsonify }}, {%- endif -%} 
+        {% if item.display_template %}"template": {{ item.display_template | replace: "_"," " | jsonify }}, {%- endif -%}
+        {% if item.format %}"format": {{ item.format | jsonify }}, {%- endif -%}
+        {% if item.image_alt_text %}"alt": {{ item.image_alt_text | escape | jsonify }}, {%- endif -%}
+        "title":{{ item.title | strip | escape | jsonify }},
+        {% if item.parentid %}"parent": {{ item.parentid | jsonify }}, {%- endif -%}
+        {% if item.object_transcript %}"object_transcript": {{ item.object_transcript | jsonify }}, {%- endif -%}
+        "id":{{ item.objectid | jsonify }},
+        "transcript_text": "" }{% unless forloop.last %},{% endunless %}{%- endfor -%}
 ];
 
-var collectionsMap = {
-{% for c in site.data.collections %}
-"{{ c.title | escape }}": "{{ c.id }}",
-{% endfor %}
-};
-
-
-/* =========================
-CARGAR TRANSCRIPCIONES
-========================= */
-async function loadTranscripts() {
+// Function to load transcript text from TXT files
+async function loadTranscriptTextForItems() {
     const loadingPromises = items.map(async (item) => {
         try {
-            if (!item.object_transcript) return;
+            // Check if item has a transcript file
+            if (!item.object_transcript) {
+                return; // Skip if no transcript
+            }
             
+            // Fetch the transcript file
             const response = await fetch(`{{ '/' | relative_url }}${item.object_transcript}`);
-            if (!response.ok) return;
-
+            
+            if (!response.ok) {
+                return; // Skip if file doesn't exist
+            }
+            
+            // Read the text content
             const transcriptText = await response.text();
+            
+            // Store the transcript text
             item.transcript_text = transcriptText;
-
+            
         } catch (error) {
             console.log(`Could not load transcript for ${item.id}:`, error);
         }
     });
-
+    
     await Promise.all(loadingPromises);
     console.log('Transcript text loaded for all items');
 }
 
+{% include js/get-icon.js %}
 
-/* =========================
-EXTRAER AÑO
-========================= */
-function extractYear(dateValue) {
-    if (!dateValue) return null;
-
-    dateValue = dateValue.trim();
-
-    if (dateValue.includes("/")) {
-        return parseInt(dateValue.split("/").pop());
+/* function to create cards for each item */ 
+function makeCard(obj) {
+    // placeholder image for lazyload
+    var placeholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 2'%3E%3C/svg%3E";
+    // find item link
+    var itemHref = `{{ '/items/' | relative_url }}${ obj.parent ? obj.parent + ".html#" + obj.id : obj.id + ".html"}`; 
+    // find image
+    var imgSrc, thumbIcon;
+    // if there is a thumb in the csv display it
+    if(obj.img) {
+        imgSrc = obj.img;
+    // else add an icon based on display_template or format
+    } else {
+        thumbIcon = getIcon(obj.template,obj.format,"thumb");
     }
+    var imgAlt = obj.alt ? obj.alt : obj.title;
 
-    if (dateValue.includes("-")) {
-        return parseInt(dateValue.split("-").pop());
+    // start card
+    var card = '<div class="item col-lg-3 col-md-4 col-sm-6 mb-2"><div class="card">';
+    // top image for items with image
+    if(imgSrc) {
+        card += '<a href="' + itemHref + '"> <img class="card-img-top lazyload" src="' + placeholder + '" data-src="' + imgSrc + '" alt="' + imgAlt + '"></a>';
     }
-
-    return parseInt(dateValue);
-}
-
-
-/* =========================
-COLECCIONES DINÁMICAS
-========================= */
-function populateCollections() {
-    var set = new Map();
-
-    items.forEach(item => {
-        if (item.collection) {
-            set.set(item.collection, item.collection);
+    // title
+    card += '<div class="card-body text-center p-2"> <h3 class="card-title h5"><a href="' + itemHref + '" class="text-dark">' + obj.title + '</a></h3>';
+    // icon thumb for item without image
+    if(thumbIcon){
+        card += '<p><a href="' + itemHref + '">' + thumbIcon + '</a></p>';
+    }
+    // other fields
+    card += '<p class="card-text">';
+    {% for f in fields %}{% unless f.hidden == 'true' %}
+    if(obj[{{ f.field | jsonify }}]){
+    {% if f.display_name %}card += '<strong>{{ f.display_name }}:</strong> ';{% endif %}
+    {% if f.btn == 'true' %}
+    var btns = obj[{{ f.field | jsonify }}].split(";");
+    for (var i = 0, len = btns.length; i < len; i++) {
+        if(btns[i] != "") {
+        card += '<a class="btn btn-sm btn-secondary m-1 text-wrap" href="{{ page.url | relative_url }}#' + encodeURIComponent(btns[i].trim()) + '">' + btns[i].trim() + '</a>';
         }
-    });
-
-    var selects = [
-        document.getElementById("newspaper-select"),
-        document.getElementById("newspaper-select-2")
-    ];
-
-    selects.forEach(select => {
-        if (!select) return;
-
-        /* limpiar primero */
-        select.innerHTML = '<option value="">Todas las colecciones</option>';
-
-        set.forEach((value) => {
-            var opt = document.createElement("option");
-            opt.value = value;
-            opt.textContent = value;
-            select.appendChild(opt);
-        });
-
-        /* 🚀 EVENTO BIEN ENGANCHADO */
-        select.addEventListener("change", function () {
-            if (!this.value) return;
-
-            var id = collectionsMap[this.value];
-            if (!id) return;
-
-            window.location.href = "{{ '/collections/' | relative_url }}" + id + ".html";
-        });
-    });
-}
-
-
-/* =========================
-GRÁFICO DE DÉCADAS
-========================= */
-function buildDecadeChart() {
-
-    var counts = {};
-    var chart = document.getElementById("decade-chart");
-
-    if (!chart) return;
-
-    chart.innerHTML = "";
-
-    items.forEach(item => {
-        var year = extractYear(item.date);
-        if (!year) return;
-
-        var decade = Math.floor(year / 10) * 10;
-        counts[decade] = (counts[decade] || 0) + 1;
-    });
-
-    var decades = Object.keys(counts).sort();
-    var max = Math.max(...Object.values(counts));
-
-    decades.forEach(dec => {
-
-        var wrap = document.createElement("div");
-        wrap.className = "bar-wrap";
-
-        var bar = document.createElement("div");
-        bar.className = "bar";
-        bar.style.height = (counts[dec] / max * 80) + "px";
-
-        var label = document.createElement("div");
-        label.style.fontSize = "10px";
-        label.style.textAlign = "center";
-        label.innerText = dec;
-
-        wrap.appendChild(bar);
-        wrap.appendChild(label);
-
-        wrap.onclick = () => {
-            document.getElementById("year-from").value = dec;
-            document.getElementById("year-to").value = parseInt(dec) + 9;
-            advancedSearch();
-        };
-
-        chart.appendChild(wrap);
-    });
-}
-
-
-/* =========================
-BÚSQUEDA AVANZADA
-========================= */
-function advancedSearch() {
-
-    var text = document.getElementById("main-search").value.toUpperCase();
-    var collection = document.getElementById("newspaper-select").value;
-    var y1 = document.getElementById("year-from").value;
-    var y2 = document.getElementById("year-to").value;
-
-    var results = items.filter(item => {
-
-        var year = extractYear(item.date);
-
-        /* 🔍 TEXTO (solo campos específicos) */
-        if (text) {
-            var content = (
-                (item.title || "") + " " +
-                (item.location || "") + " " +
-                (item.transcript_text || "")
-            ).toUpperCase();
-
-            if (!content.includes(text)) return false;
-        }
-
-        /* 📰 COLECCIÓN */
-        if (collection && item.collection !== collection) return false;
-
-        /* 📅 AÑO */
-        if (y1 && year && year < parseInt(y1)) return false;
-        if (y2 && year && year > parseInt(y2)) return false;
-
-        return true;
-    });
-
-    renderResults(results);
-}
-
-
-/* =========================
-RENDER RESULTADOS
-========================= */
-function renderResults(arr) {
-
-    var container = document.getElementById("results-container");
-    if (!container) return;
-
-    if (arr.length === 0) {
-        container.innerHTML = "No hay resultados";
-        return;
     }
-
-    var html = "";
-
-    arr.forEach(item => {
-        html += `
-        <div>
-            <strong>${item.title}</strong><br>
-            ${item.date || ""} — ${item.location || ""}<br>
-            <small>${item.collection || ""}</small>
-        </div>`;
-    });
-
-    container.innerHTML = html;
+    {% else %}
+    card += obj[{{ f.field | jsonify }}];
+    {% endif %}
+    {% unless forloop.last %}card += '<br>';{% endunless %}
+    }
+    {% endunless %}{% endfor %}
+    card += '</p>';
+    // media type
+    if(obj.template && obj.template != "") {
+        mediaIcon = getIcon(obj.template,obj.format,"hidden");
+        card += '<p class="card-text"><small><a class="btn btn-sm btn-outline-secondary" href="{{ page.url | relative_url }}#' + encodeURIComponent(obj.template) + '">' + 
+        obj.template.toUpperCase() + ' ' + mediaIcon + '</a></small></p>';
+    }
+    // view button
+    card += '<hr><a href="' + itemHref + '" class="btn btn-sm btn-light" title="link to ' + obj.title + '">Ver entrada completa</a>';
+    // close divs
+    card += '</div></div></div>';
+    // send back big string
+    return card;
 }
 
+/* MODIFIED: filter items function with keyword search */
+function filterItems(arr,q) {
+    // show loading icon
+    loadingIcon.classList.remove("d-none");
+    // dont filter if no q 
+    if (q=="") { 
+        var filteredItems = arr; 
+    } else {
+        // Split query into individual keywords
+        var keywords = q.trim().toUpperCase().split(/\s+/);
+        
+        // Filter items that contain ANY of the keywords
+        var filteredItems = [];
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var val = "";
+            for (var k in arr[i]) { 
+                val += arr[i][k] + " "; 
+            }
+            val = val.toUpperCase();
+            
+            // Check if ANY keyword matches
+            var hasMatch = false;
+            for (var j = 0; j < keywords.length; j++) {
+                if (val.indexOf(keywords[j]) != -1) {
+                    hasMatch = true;
+                    break; // Found at least one match, no need to check more
+                }
+            }
+            
+            if (hasMatch) {
+                filteredItems.push(arr[i]);
+            }
+        }
+    }
+    // add number 
+    document.querySelector("#numberOf").innerHTML = filteredItems.length + " de {{ items | size }} artículos";
+    
+    // add stuff, make cards first in giant var, then add all at once to speed things up
+    var cards = "";
+    for (var i = 0, len = filteredItems.length; i < len; i++) {
+        cards += makeCard(filteredItems[i]);
+    }
+    browseItemsDiv.innerHTML = cards;
 
-/* =========================
-   🚀 INIT
-========================= */
-loadTranscripts().then(() => {
-    populateCollections();
-    buildDecadeChart();
-    renderResults(items);
+    // finish
+    loadingIcon.classList.add("d-none");
+};
+
+/* Fisher-Yates shuffle https://bost.ocks.org/mike/shuffle/ */
+function shuffle(array) {
+    var m = array.length, t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
+}
+
+/* init browse page */
+
+/* randomize items once at page load */
+shuffle(items);
+
+/* set some elements */ 
+var loadingIcon = document.querySelector("#loadingIcon");
+var filterTextBox = document.querySelector('#filterTextBox');
+var filterButton = document.querySelector("#filterButton");
+var browseItemsDiv = document.querySelector("#browseItems");
+
+/* Load transcript text before initial display */
+loadTranscriptTextForItems().then(() => {
+    /* filter if hash in initial URL */
+    var query = "";
+    if(window.location.hash) {
+        query = decodeURIComponent(location.hash.substr(1));
+        filterTextBox.value = query;
+        filterItems(items,query);
+    } else {
+        query = "";
+        filterItems(items,query);
+    }
+});
+
+/* filter form */
+function submitFilter() {
+    query = filterTextBox.value;
+    window.location.hash = encodeURIComponent(query);
+}
+/* reset filters */ 
+function resetFilter() {
+    query = "";
+    filterTextBox.value = query;
+    window.location.hash = encodeURIComponent(query);
+}
+
+/* filter if hash changes */ 
+window.addEventListener("hashchange", function() {
+    // read hash
+    query = decodeURIComponent(location.hash.substr(1));
+    filterTextBox.value = query;
+    // filter
+    filterItems(items,query);
+});
+
+/* item array sorting function */
+function sorting(json_object, key_to_sort_by) {
+    function sortByKey(a, b) {
+        var x = a[key_to_sort_by];
+        var y = b[key_to_sort_by];
+        if (typeof x === 'string' ) { x = x.toUpperCase(); }
+        if (typeof y === 'string' ) { y = y.toUpperCase(); }
+        return ((x==null) ? 1: (y==null) ? -1: (x < y) ? -1 : ((x > y) ? 1 : 0));
+    }
+    json_object.sort(sortByKey);
+};
+
+/* add sort function on click of sort options */
+var sortFilter = document.querySelector("#sortFilter");
+var sortOptions = document.querySelectorAll(".browse-sort-item");
+sortOptions.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    // get the sort field
+    var field = button.dataset.filter;
+    var display_name = button.textContent;
+    // get current filter
+    var query = filterTextBox.value;
+    // switch active sort option
+    sortOptions.forEach((option) => { option.classList.remove("active"); } );
+    button.classList.add("active");
+    sortFilter.innerHTML = display_name;
+    // send to sort and filter
+    if (field != 'random') {
+        sorting(items, field);
+        filterItems(items, query);
+    }
+    else {
+        shuffle(items);
+        filterItems(items, query);
+    }
+  });
+}); 
+
+/* trigger filter on Enter key */
+filterTextBox.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") submitFilter();
 });
 
 </script>
