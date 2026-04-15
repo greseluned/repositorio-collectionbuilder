@@ -101,14 +101,19 @@ function update() {
   let items = getItems();
 
   // Filter
+  const visible = [];
   items.forEach(li => {
     const inTitle = li.dataset.title.includes(query);
     const inTranscript = li.dataset.transcriptText && li.dataset.transcriptText.includes(query);
-    li.style.display = (!query || inTitle || inTranscript) ? "" : "none";
+    if (!query || inTitle || inTranscript) {
+      li.style.display = "";
+      visible.push(li);
+    } else {
+      li.style.display = "none";
+    }
   });
 
-  // Sort
-  const visible = items.filter(li => li.style.display !== "none");
+  // Sort visible items
   visible.sort((a, b) => {
     switch (sort) {
       case "alpha-asc":  return a.dataset.title.localeCompare(b.dataset.title);
