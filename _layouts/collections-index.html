@@ -7,10 +7,10 @@ layout: page
 
   <div class="row mb-3 g-2 align-items-center">
     <div class="col-md-6">
-      <input type="text" id="collFilter" class="form-control" placeholder="Filtrar colecciones...">
+      <input type="text" class="form-control" id="collFilter" placeholder="Filtrar...">
     </div>
     <div class="col-md-4">
-      <select id="collSort" class="form-select">
+      <select class="form-select" id="collSort">
         <option value="default">Orden predeterminado</option>
         <option value="alpha-asc">Nombre (A→Z)</option>
         <option value="alpha-desc">Nombre (Z→A)</option>
@@ -25,15 +25,27 @@ layout: page
     </div>
   </div>
 
-  <div id="collCount" class="text-muted small mb-2"></div>
+  <div class="text-muted small mb-2" id="collCount"></div>
+
+  <div id="loadingIcon" class="text-center">
+    <div class="spinner-border text-dark" role="status"><span class="visually-hidden">Cargando...</span></div>
+  </div>
 
   <ul class="list-group list-group-flush" id="collList">
     {% for coll in site.data.collections %}
       {% assign items = meta | where: "collection", coll.id %}
+      {% assign transcripts = "" %}
+      {% for item in items %}
+        {% if item.object_transcript %}
+          {% assign transcripts = transcripts | append: item.object_transcript | append: ";" %}
+        {% endif %}
+      {% endfor %}
       <li class="list-group-item d-flex justify-content-between align-items-center px-0"
           data-title="{{ coll.title | downcase }}"
           data-count="{{ items.size }}"
-          data-date="{{ coll.date_start | default: 0 }}">
+          data-date="{{ coll.date_start | default: 0 }}"
+          data-transcripts="{{ transcripts }}"
+          data-transcript-text="">
         <a href="{{ coll.id | prepend: '/collections/' | append: '/' | relative_url }}">
           {{ coll.title }}
         </a>
@@ -49,6 +61,35 @@ const list = document.getElementById("collList");
 const countEl = document.getElementById("collCount");
 const filterInput = document.getElementById("collFilter");
 const sortSelect = document.getElementById("collSort");
+const loadingIcon = document.getElementById("loadingIcon");
+
+// Load all transcripts for all collections
+async function loadAllTranscripts() {
+  loadingIcon.classList.remove("d-none");
+  const items = Array.from(list.querySelectorAll("li"));
+
+  await Promise.all(items.map(async (li) => {
+    const paths = li.dataset.transcripts
+      ? li.dataset.transcripts.split(";").filter(p => p.trim() !== "")
+      : [];
+
+    if (paths.length === 0) return;
+
+    const texts = await Promise.all(paths.map(async (path) => {
+      try {
+        const response = await fetch("{{ '/' | relative_url }}" + path.trim());
+        if (!response.ok) return "";
+        return await response.text();
+      } catch (e) {
+        return "";
+      }
+    }));
+
+    li.dataset.transcriptText = texts.join(" ").toLowerCase();
+  }));
+
+  loadingIcon.classList.add("d-none");
+}
 
 function getItems() {
   return Array.from(list.querySelectorAll("li"));
@@ -61,8 +102,9 @@ function update() {
 
   // Filter
   items.forEach(li => {
-    const match = !query || li.dataset.title.includes(query);
-    li.style.display = match ? "" : "none";
+    const inTitle = li.dataset.title.includes(query);
+    const inTranscript = li.dataset.transcriptText && li.dataset.transcriptText.includes(query);
+    li.style.display = (!query || inTitle || inTranscript) ? "" : "none";
   });
 
   // Sort
@@ -81,7 +123,7 @@ function update() {
   visible.forEach(li => list.appendChild(li));
 
   // Count
-  countEl.textContent = visible.length + (visible.length === 1 ? " colección" : " colecciones");
+  countEl.textContent = visible.length === 1 ? "1 colección" : visible.length + " colecciones";
 }
 
 function resetControls() {
@@ -93,5 +135,6 @@ function resetControls() {
 filterInput.addEventListener("input", update);
 sortSelect.addEventListener("change", update);
 
-update();
+// Load transcripts first, then render
+loadAllTranscripts().then(() => update());
 </script>
