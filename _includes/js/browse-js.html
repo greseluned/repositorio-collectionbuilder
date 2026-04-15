@@ -7,116 +7,167 @@
 
 <script>
 
-var items = [
-{% for item in items %}
-{
-    {% for f in fields %}
-    {% if item[f.field] %}
-    {{ f.field | jsonify }}: {{ item[f.field] | strip | jsonify }},
-    {% endif %}
-    {% endfor %}
+var items = {{ site.data[site.metadata] | jsonify }};
 
-    {% if item.image_thumb %}"img": {{ item.image_thumb | relative_url | jsonify }},{% endif %}
-    {% if item.display_template %}"template": {{ item.display_template | jsonify }},{% endif %}
-    {% if item.format %}"format": {{ item.format | jsonify }},{% endif %}
-    {% if item.parentid %}"parent": {{ item.parentid | jsonify }},{% endif %}
-    {% if item.object_transcript %}"object_transcript": {{ item.object_transcript | jsonify }},{% endif %}
-
-    "title": {{ item.title | jsonify }},
-    "id": {{ item.objectid | jsonify }},
-    "transcript_text": ""
-}
-{% unless forloop.last %},{% endunless %}
-{% endfor %}
-];
-
-async function loadTranscriptTextForItems() {
-    const promises = items.map(async (item) => {
-        if (!item.object_transcript) return;
-
+/* 📄 cargar transcripciones */
+async function loadTranscripts() {
+    const loadingPromises = items.map(async (item) => {
         try {
+            // Check if item has a transcript file
+            if (!item.object_transcript) {
+                return; // Skip if no transcript
+            }
+            
+            // Fetch the transcript file
             const response = await fetch(`{{ '/' | relative_url }}${item.object_transcript}`);
-            if (!response.ok) return;
-            item.transcript_text = await response.text();
-        } catch (e) {}
+            
+            if (!response.ok) {
+                return; // Skip if file doesn't exist
+            }
+            
+            // Read the text content
+            const transcriptText = await response.text();
+            
+            // Store the transcript text
+            item.transcript_text = transcriptText;
+            
+        } catch (error) {
+            console.log(`Could not load transcript for ${item.id}:`, error);
+        }
     });
-
-    await Promise.all(promises);
+    
+    await Promise.all(loadingPromises);
+    console.log('Transcript text loaded for all items');
 }
 
+function extractYear(dateValue) {
+    if (!dateValue) return null;
+
+    dateValue = dateValue.trim();
+
+    // formato con /
+    if (dateValue.includes("/")) {
+        var parts = dateValue.split("/");
+        return parseInt(parts[parts.length - 1]);
+    }
+
+    // formato con -
+    if (dateValue.includes("-")) {
+        var parts = dateValue.split("-");
+        return parseInt(parts[parts.length - 1]);
+    }
+
+    // solo año
+    return parseInt(dateValue);
+}
+
+/* 📰 periódicos dinámicos */
 function populateNewspapers() {
-    var select = document.getElementById("newspaper-filter");
-    var values = new Set();
+    var set = new Set();
 
-    items.forEach(item => {
-        if (item.newspaper) values.add(item.newspaper);
+    items.forEach(i => {
+        if (i.newspaper) set.add(i.newspaper);
     });
 
-    values.forEach(val => {
-        var opt = document.createElement("option");
-        opt.value = val;
-        opt.textContent = val;
-        select.appendChild(opt);
+    var selects = [
+        document.getElementById("newspaper-select"),
+        document.getElementById("newspaper-select-2")
+    ];
+
+    selects.forEach(select => {
+        set.forEach(val => {
+            var opt = document.createElement("option");
+            opt.value = val;
+            opt.textContent = val;
+            select.appendChild(opt);
+        });
     });
 }
 
-function makeCard(obj) {
-    var itemHref = `{{ '/items/' | relative_url }}${obj.id}.html`;
-    return `
-    <div class="item col-lg-3 col-md-4 col-sm-6 mb-2">
-      <div class="card">
-        <div class="card-body text-center p-2">
-          <h5><a href="${itemHref}">${obj.title}</a></h5>
-          ${obj.date ? `<p>${obj.date}</p>` : ""}
-          ${obj.newspaper ? `<p>${obj.newspaper}</p>` : ""}
-        </div>
-      </div>
-    </div>`;
-}
+/* 🔍 búsqueda avanzada */
+function advancedSearch() {
+    var text = document.getElementById("main-search").value.toUpperCase();
+    var newspaper = document.getElementById("newspaper-select").value;
+    var year = extractYear(item.date);
+    if (y1 && year && year < parseInt(y1)) return false;
+    if (y2 && year && year > parseInt(y2)) return false;
 
-function applyAdvancedSearch() {
-    var text = document.getElementById("advanced-search").value.toUpperCase();
-    var newspaper = document.getElementById("newspaper-filter").value;
-    var yearFrom = document.getElementById("year-from").value;
-    var yearTo = document.getElementById("year-to").value;
+    var results = items.filter(item => {
 
-    var filtered = items.filter(item => {
         var content = "";
         for (var k in item) content += item[k] + " ";
         content = content.toUpperCase();
 
-        if (text && content.indexOf(text) === -1) return false;
+        if (text && !content.includes(text)) return false;
         if (newspaper && item.newspaper !== newspaper) return false;
 
-        if (yearFrom && item.date && item.date < yearFrom) return false;
-        if (yearTo && item.date && item.date > yearTo) return false;
+        if (y1 && item.date && item.date < y1) return false;
+        if (y2 && item.date && item.date > y2) return false;
 
         return true;
     });
 
-    renderItems(filtered);
+    renderResults(results);
 }
 
-function resetAdvancedSearch() {
-    document.getElementById("advanced-search").value = "";
-    document.getElementById("newspaper-filter").value = "";
-    document.getElementById("year-from").value = "";
-    document.getElementById("year-to").value = "";
-    renderItems(items);
+/* 📦 render */
+function renderResults(arr) {
+    var container = document.getElementById("results-container");
+    var html = "";
+
+    arr.forEach(item => {
+        html += `
+        <div style="margin-bottom:10px">
+          <strong>${item.title}</strong><br>
+          ${item.date || ""} — ${item.newspaper || ""}
+        </div>`;
+    });
+
+    container.innerHTML = html || "No results";
 }
 
-function renderItems(arr) {
-    var cards = "";
-    arr.forEach(item => cards += makeCard(item));
-    browseItemsDiv.innerHTML = cards;
-    document.querySelector("#numberOf").innerHTML = arr.length + " resultados";
+/* 📊 gráfico por décadas REAL */
+function buildDecadeChart() {
+    var counts = {};
+
+    items.forEach(item => {
+        var year = extractYear(item.date);
+        if (!year) return;
+
+        var decade = Math.floor(year / 10) * 10;
+        counts[decade] = (counts[decade] || 0) + 1;
+    });
+
+    var chart = document.getElementById("decade-chart");
+    chart.innerHTML = "";
+
+    var max = Math.max(...Object.values(counts));
+
+    Object.keys(counts).sort().forEach(dec => {
+        var wrap = document.createElement("div");
+        wrap.className = "bar-wrap";
+        wrap.title = dec;
+
+        var bar = document.createElement("div");
+        bar.className = "bar";
+        bar.style.height = (counts[dec] / max * 80) + "px";
+
+        wrap.onclick = () => {
+            document.getElementById("year-from").value = dec;
+            document.getElementById("year-to").value = parseInt(dec) + 9;
+            advancedSearch();
+        };
+
+        wrap.appendChild(bar);
+        chart.appendChild(wrap);
+    });
 }
 
-var browseItemsDiv = document.querySelector("#browseItems");
-
-loadTranscriptTextForItems().then(() => {
+/* 🚀 init */
+loadTranscripts().then(() => {
     populateNewspapers();
-    renderItems(items);
+    buildDecadeChart();
+    renderResults(items);
 });
 
 </script>
