@@ -3,6 +3,10 @@ layout: page
 ---
 {% assign meta = site.data[site.metadata] %}
 
+<style>
+  #collList li.hidden { display: none !important; }
+</style>
+
 <div class="container py-4">
 
   <div class="row mb-3 g-2 align-items-center">
@@ -106,10 +110,10 @@ function update() {
     const inTitle = li.dataset.title.includes(query);
     const inTranscript = li.dataset.transcriptText && li.dataset.transcriptText.includes(query);
     if (!query || inTitle || inTranscript) {
-      li.style.display = "";
+      li.classList.remove("hidden");
       visible.push(li);
     } else {
-      li.style.display = "none";
+      li.classList.add("hidden");
     }
   });
 
