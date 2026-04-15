@@ -81,7 +81,7 @@ function update() {
   visible.forEach(li => list.appendChild(li));
 
   // Count
-  countEl.textContent = visible.length + " colección" + (visible.length !== 1 ? "es" : "");
+  countEl.textContent = visible.length + (visible.length === 1 ? " colección" : " colecciones");
 }
 
 function resetControls() {
