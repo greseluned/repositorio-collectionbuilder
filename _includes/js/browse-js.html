@@ -7,7 +7,7 @@
 <script>
 
 /* =========================
-   📦 ITEMS (desde CSV)
+ITEMS (desde CSV)
 ========================= */
 var items = [
 {% for item in items %}
@@ -26,22 +26,13 @@ var items = [
 
 var collectionsMap = {
 {% for c in site.data.collections %}
-"{{ c.title }}": "{{ c.id }}",
+"{{ c.title | escape }}": "{{ c.id }}",
 {% endfor %}
 };
 
-select.addEventListener("change", function () {
-    if (!this.value) return;
-
-    var id = collectionsMap[this.value];
-    if (!id) return;
-
-    window.location.href = "{{ '/collections/' | relative_url }}" + id + ".html";
-});
-
 
 /* =========================
-   📄 CARGAR TRANSCRIPCIONES (TU FUNCIÓN ORIGINAL)
+CARGAR TRANSCRIPCIONES
 ========================= */
 async function loadTranscripts() {
     const loadingPromises = items.map(async (item) => {
@@ -65,7 +56,7 @@ async function loadTranscripts() {
 
 
 /* =========================
-   📅 EXTRAER AÑO (como timeline)
+EXTRAER AÑO
 ========================= */
 function extractYear(dateValue) {
     if (!dateValue) return null;
@@ -85,7 +76,7 @@ function extractYear(dateValue) {
 
 
 /* =========================
-   📰 COLECCIONES DINÁMICAS
+COLECCIONES DINÁMICAS
 ========================= */
 function populateCollections() {
     var set = new Map();
@@ -104,34 +95,31 @@ function populateCollections() {
     selects.forEach(select => {
         if (!select) return;
 
+        /* limpiar primero */
+        select.innerHTML = '<option value="">Todas las colecciones</option>';
+
         set.forEach((value) => {
             var opt = document.createElement("option");
-
             opt.value = value;
             opt.textContent = value;
-
             select.appendChild(opt);
         });
 
-        /* 🚀 REDIRECCIÓN AL CAMBIAR */
+        /* 🚀 EVENTO BIEN ENGANCHADO */
         select.addEventListener("change", function () {
             if (!this.value) return;
 
-            // slug limpio (por si acaso)
-            var slug = this.value
-                .toLowerCase()
-                .trim()
-                .replace(/\s+/g, '-')
-                .replace(/[^a-z0-9\-]/g, '');
+            var id = collectionsMap[this.value];
+            if (!id) return;
 
-            window.location.href = "{{ '/collections/' | relative_url }}" + slug + ".html";
+            window.location.href = "{{ '/collections/' | relative_url }}" + id + ".html";
         });
     });
 }
 
 
 /* =========================
-   📊 GRÁFICO DE DÉCADAS
+GRÁFICO DE DÉCADAS
 ========================= */
 function buildDecadeChart() {
 
@@ -182,7 +170,7 @@ function buildDecadeChart() {
 
 
 /* =========================
-   🔍 BÚSQUEDA AVANZADA
+BÚSQUEDA AVANZADA
 ========================= */
 function advancedSearch() {
 
@@ -221,7 +209,7 @@ function advancedSearch() {
 
 
 /* =========================
-   📦 RENDER RESULTADOS
+RENDER RESULTADOS
 ========================= */
 function renderResults(arr) {
 
