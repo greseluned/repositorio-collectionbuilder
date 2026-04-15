@@ -235,30 +235,17 @@ function sorting(json_object, key_to_sort_by) {
     json_object.sort(sortByKey);
 };
 
-/* add sort function on click of sort options */
-var sortFilter = document.querySelector("#sortFilter");
-var sortOptions = document.querySelectorAll(".browse-sort-item");
-sortOptions.forEach((button) => {
-  button.addEventListener("click", (event) => {
-    // get the sort field
-    var field = button.dataset.filter;
-    var display_name = button.textContent;
-    // get current filter
-    var query = filterTextBox.value;
-    // switch active sort option
-    sortOptions.forEach((option) => { option.classList.remove("active"); } );
-    button.classList.add("active");
-    sortFilter.innerHTML = display_name;
-    // send to sort and filter
-    if (field != 'random') {
-        sorting(items, field);
-        filterItems(items, query);
-    }
-    else {
-        shuffle(items);
-        filterItems(items, query);
-    }
-  });
-}); 
+/* sort on select change */
+var browseSortSelect = document.querySelector("#browseSortSelect");
+browseSortSelect.addEventListener("change", function() {
+  var field = browseSortSelect.value;
+  var query = filterTextBox.value;
+  if (field === "random") {
+    shuffle(items);
+  } else {
+    sorting(items, field);
+  }
+  filterItems(items, query);
+});
 
 </script>
