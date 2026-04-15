@@ -24,6 +24,21 @@ var items = [
 {% endfor %}
 ];
 
+var collectionsMap = {
+{% for c in site.data.collections %}
+"{{ c.title }}": "{{ c.id }}",
+{% endfor %}
+};
+
+select.addEventListener("change", function () {
+    if (!this.value) return;
+
+    var id = collectionsMap[this.value];
+    if (!id) return;
+
+    window.location.href = "{{ '/collections/' | relative_url }}" + id + ".html";
+});
+
 
 /* =========================
    📄 CARGAR TRANSCRIPCIONES (TU FUNCIÓN ORIGINAL)
@@ -73,10 +88,12 @@ function extractYear(dateValue) {
    📰 COLECCIONES DINÁMICAS
 ========================= */
 function populateCollections() {
-    var set = new Set();
+    var set = new Map();
 
     items.forEach(item => {
-        if (item.collection) set.add(item.collection);
+        if (item.collection) {
+            set.set(item.collection, item.collection);
+        }
     });
 
     var selects = [
@@ -87,11 +104,27 @@ function populateCollections() {
     selects.forEach(select => {
         if (!select) return;
 
-        set.forEach(val => {
+        set.forEach((value) => {
             var opt = document.createElement("option");
-            opt.value = val;
-            opt.textContent = val;
+
+            opt.value = value;
+            opt.textContent = value;
+
             select.appendChild(opt);
+        });
+
+        /* 🚀 REDIRECCIÓN AL CAMBIAR */
+        select.addEventListener("change", function () {
+            if (!this.value) return;
+
+            // slug limpio (por si acaso)
+            var slug = this.value
+                .toLowerCase()
+                .trim()
+                .replace(/\s+/g, '-')
+                .replace(/[^a-z0-9\-]/g, '');
+
+            window.location.href = "{{ '/collections/' | relative_url }}" + slug + ".html";
         });
     });
 }
