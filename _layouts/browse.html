@@ -1,5 +1,4 @@
 ---
-# collection "Browse" page
 layout: page
 custom-foot: js/browse-js.html
 ---
@@ -7,6 +6,31 @@ custom-foot: js/browse-js.html
 {{ content }}
 
 <div class="container py-4">
+
+  <!-- 🔍 BUSCADOR AVANZADO -->
+  <div class="card mb-4 p-4">
+    <h4 class="mb-3">Búsqueda avanzada</h4>
+
+    <input type="text" id="advanced-search" class="form-control mb-3" placeholder="Buscar en títulos, metadatos y transcripciones...">
+
+    <select id="newspaper-filter" class="form-select mb-3">
+      <option value="">Todos los periódicos</option>
+    </select>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input type="number" id="year-from" class="form-control" placeholder="Año desde">
+      </div>
+      <div class="col-md-6">
+        <input type="number" id="year-to" class="form-control" placeholder="Año hasta">
+      </div>
+    </div>
+
+    <button class="btn btn-primary" onclick="applyAdvancedSearch()">Buscar</button>
+    <button class="btn btn-outline-secondary ms-2" onclick="resetAdvancedSearch()">Restablecer</button>
+  </div>
+
+  <!-- 🔎 FILTRO SIMPLE ORIGINAL -->
   <div class="row mb-3 g-2 align-items-center">
     <div class="col-md-6">
       <input type="text" class="form-control" id="filterTextBox" placeholder="Filtrar..." aria-label="Buscar">
@@ -16,22 +40,25 @@ custom-foot: js/browse-js.html
         <option value="default">Orden predeterminado</option>
         <option value="alpha-asc">Nombre (A→Z)</option>
         <option value="alpha-desc">Nombre (Z→A)</option>
-        <option value="count-desc">Más artículos primero</option>
-        <option value="count-asc">Menos artículos primero</option>
         <option value="date-asc">Fecha (más antigua primero)</option>
         <option value="date-desc">Fecha (más reciente primero)</option>
       </select>
     </div>
     <div class="col-md-2">
-      <button class="btn btn-outline-secondary w-100" style="background-color: #7fc006; border-color: #659a02; color: #000000" onclick="resetFilter(); return false;">Restablecer</button>
+      <button class="btn btn-outline-secondary w-100" onclick="resetFilter(); return false;">
+        Restablecer
+      </button>
     </div>
   </div>
 
   <div class="text-muted small mb-2" id="numberOf"></div>
 
   <div id="loadingIcon" class="text-center">
-    <div class="spinner-border text-dark" role="status"><span class="visually-hidden">Cargando...</span></div>
+    <div class="spinner-border text-dark" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
   </div>
 
   <div class="row justify-content-center py-2" id="browseItems"></div>
+
 </div>
