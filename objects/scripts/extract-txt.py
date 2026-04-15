@@ -102,7 +102,7 @@ def extract_text_from_json(json_path):
             
             # Add page separator (optional - comment out if not needed)
             if page_texts:
-                all_text.append(f"=== Page {page_num} ===")
+                #all_text.append(f"=== Page {page_num} ===")
                 # Separate regions with double newlines (paragraph breaks)
                 all_text.append('\n\n'.join(page_texts))
         
