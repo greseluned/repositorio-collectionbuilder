@@ -69,9 +69,9 @@ layout: page
         <input type="text" class="form-control form-control-lg" id="searchQuery" placeholder="Buscar en títulos y transcripciones...">
       </div>
       <div class="mb-3">
-        <label class="form-label">Publicación</label>
+        <label class="form-label">Cabeceras</label>
         <select class="form-select" id="searchCollection">
-          <option value="">Todas las publicaciones</option>
+          <option value="">Todas las cabeceras</option>
           {% for coll in collections %}
           <option value="{{ coll.id }}">{{ coll.title }}</option>
           {% endfor %}
