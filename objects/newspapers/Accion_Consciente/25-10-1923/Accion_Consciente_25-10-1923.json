@@ -1,0 +1,1475 @@
+{
+  "id": "Accion_Consciente_25-10-1923",
+  "pages": [
+    {
+      "page": 1,
+      "width": 1653,
+      "height": 2339,
+      "image": "objects/newspapers/Accion_Consciente/images/Accion_Consciente_25-10-1923_page-1.jpg",
+      "textRegions": [
+        {
+          "id": "r_7",
+          "type": "TextRegion",
+          "points": [
+            [
+              133,
+              113
+            ],
+            [
+              1538,
+              113
+            ],
+            [
+              1538,
+              490
+            ],
+            [
+              133,
+              490
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r",
+          "type": "TextRegion",
+          "points": [
+            [
+              163,
+              560
+            ],
+            [
+              163,
+              495
+            ],
+            [
+              838,
+              495
+            ],
+            [
+              838,
+              560
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_26",
+          "type": "TextRegion",
+          "points": [
+            [
+              192,
+              561
+            ],
+            [
+              526,
+              561
+            ],
+            [
+              526,
+              2088
+            ],
+            [
+              192,
+              2088
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_6",
+          "type": "TextRegion",
+          "points": [
+            [
+              524,
+              560
+            ],
+            [
+              838,
+              560
+            ],
+            [
+              838,
+              1774
+            ],
+            [
+              524,
+              1774
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_1",
+          "type": "TextRegion",
+          "points": [
+            [
+              540,
+              1808
+            ],
+            [
+              539,
+              1780
+            ],
+            [
+              838,
+              1774
+            ],
+            [
+              838,
+              1806
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_2",
+          "type": "TextRegion",
+          "points": [
+            [
+              529,
+              1806
+            ],
+            [
+              838,
+              1806
+            ],
+            [
+              838,
+              2073
+            ],
+            [
+              529,
+              2073
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_3",
+          "type": "TextRegion",
+          "points": [
+            [
+              835,
+              537
+            ],
+            [
+              835,
+              498
+            ],
+            [
+              1479,
+              498
+            ],
+            [
+              1479,
+              537
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_9",
+          "type": "TextRegion",
+          "points": [
+            [
+              1136,
+              1201
+            ],
+            [
+              835,
+              1201
+            ],
+            [
+              835,
+              537
+            ],
+            [
+              1136,
+              537
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_12",
+          "type": "TextRegion",
+          "points": [
+            [
+              1136,
+              1154
+            ],
+            [
+              1136,
+              537
+            ],
+            [
+              1479,
+              537
+            ],
+            [
+              1479,
+              1154
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_8",
+          "type": "TextRegion",
+          "points": [
+            [
+              1136,
+              1183
+            ],
+            [
+              1136,
+              1154
+            ],
+            [
+              1479,
+              1154
+            ],
+            [
+              1479,
+              1183
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_5",
+          "type": "TextRegion",
+          "points": [
+            [
+              848,
+              1250
+            ],
+            [
+              848,
+              1206
+            ],
+            [
+              1468,
+              1206
+            ],
+            [
+              1468,
+              1250
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_14",
+          "type": "TextRegion",
+          "points": [
+            [
+              1146,
+              2086
+            ],
+            [
+              848,
+              2086
+            ],
+            [
+              848,
+              1250
+            ],
+            [
+              1146,
+              1250
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_13",
+          "type": "TextRegion",
+          "points": [
+            [
+              1146,
+              1907
+            ],
+            [
+              1146,
+              1250
+            ],
+            [
+              1468,
+              1250
+            ],
+            [
+              1468,
+              1907
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_16",
+          "type": "TextRegion",
+          "points": [
+            [
+              1468,
+              1907
+            ],
+            [
+              1468,
+              1946
+            ],
+            [
+              1146,
+              1946
+            ],
+            [
+              1146,
+              1907
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_15",
+          "type": "TextRegion",
+          "points": [
+            [
+              1468,
+              1946
+            ],
+            [
+              1468,
+              2086
+            ],
+            [
+              1146,
+              2086
+            ],
+            [
+              1146,
+              1946
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        }
+      ]
+    },
+    {
+      "page": 2,
+      "width": 1653,
+      "height": 2339,
+      "image": "objects/newspapers/Accion_Consciente/images/Accion_Consciente_25-10-1923_page-2.jpg",
+      "textRegions": [
+        {
+          "id": "r",
+          "type": "TextRegion",
+          "points": [
+            [
+              150,
+              108
+            ],
+            [
+              1556,
+              108
+            ],
+            [
+              1556,
+              214
+            ],
+            [
+              150,
+              214
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_38",
+          "type": "TextRegion",
+          "points": [
+            [
+              219,
+              224
+            ],
+            [
+              810,
+              224
+            ],
+            [
+              810,
+              274
+            ],
+            [
+              219,
+              274
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_2",
+          "type": "TextRegion",
+          "points": [
+            [
+              506,
+              470
+            ],
+            [
+              214,
+              470
+            ],
+            [
+              214,
+              269
+            ],
+            [
+              506,
+              269
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_3",
+          "type": "TextRegion",
+          "points": [
+            [
+              506,
+              438
+            ],
+            [
+              506,
+              269
+            ],
+            [
+              802,
+              269
+            ],
+            [
+              802,
+              438
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_4",
+          "type": "TextRegion",
+          "points": [
+            [
+              802,
+              438
+            ],
+            [
+              802,
+              470
+            ],
+            [
+              506,
+              470
+            ],
+            [
+              506,
+              438
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_1",
+          "type": "TextRegion",
+          "points": [
+            [
+              206,
+              548
+            ],
+            [
+              206,
+              482
+            ],
+            [
+              796,
+              482
+            ],
+            [
+              796,
+              548
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_7",
+          "type": "TextRegion",
+          "points": [
+            [
+              501,
+              1300
+            ],
+            [
+              206,
+              1300
+            ],
+            [
+              206,
+              548
+            ],
+            [
+              501,
+              548
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_5",
+          "type": "TextRegion",
+          "points": [
+            [
+              501,
+              1272
+            ],
+            [
+              501,
+              548
+            ],
+            [
+              796,
+              548
+            ],
+            [
+              796,
+              1272
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_8",
+          "type": "TextRegion",
+          "points": [
+            [
+              796,
+              1272
+            ],
+            [
+              796,
+              1300
+            ],
+            [
+              501,
+              1300
+            ],
+            [
+              501,
+              1272
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_6",
+          "type": "TextRegion",
+          "points": [
+            [
+              192,
+              1385
+            ],
+            [
+              192,
+              1324
+            ],
+            [
+              788,
+              1324
+            ],
+            [
+              788,
+              1385
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_12",
+          "type": "TextRegion",
+          "points": [
+            [
+              493,
+              2047
+            ],
+            [
+              192,
+              2047
+            ],
+            [
+              192,
+              1385
+            ],
+            [
+              493,
+              1385
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_11",
+          "type": "TextRegion",
+          "points": [
+            [
+              493,
+              1385
+            ],
+            [
+              788,
+              1385
+            ],
+            [
+              788,
+              2047
+            ],
+            [
+              493,
+              2047
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_17",
+          "type": "TextRegion",
+          "points": [
+            [
+              1092,
+              1398
+            ],
+            [
+              1092,
+              2044
+            ],
+            [
+              788,
+              2044
+            ],
+            [
+              788,
+              1398
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_18",
+          "type": "TextRegion",
+          "points": [
+            [
+              1406,
+              1400
+            ],
+            [
+              1406,
+              1744
+            ],
+            [
+              1092,
+              1744
+            ],
+            [
+              1092,
+              1400
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_13",
+          "type": "TextRegion",
+          "points": [
+            [
+              1092,
+              1765
+            ],
+            [
+              1092,
+              1744
+            ],
+            [
+              1406,
+              1744
+            ],
+            [
+              1406,
+              1765
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_16",
+          "type": "TextRegion",
+          "points": [
+            [
+              1406,
+              1765
+            ],
+            [
+              1406,
+              2044
+            ],
+            [
+              1092,
+              2044
+            ],
+            [
+              1092,
+              1765
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_9",
+          "type": "TextRegion",
+          "points": [
+            [
+              788,
+              290
+            ],
+            [
+              788,
+              237
+            ],
+            [
+              1406,
+              237
+            ],
+            [
+              1406,
+              290
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_15",
+          "type": "TextRegion",
+          "points": [
+            [
+              788,
+              1398
+            ],
+            [
+              788,
+              290
+            ],
+            [
+              1092,
+              290
+            ],
+            [
+              1092,
+              1398
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_14",
+          "type": "TextRegion",
+          "points": [
+            [
+              1092,
+              1400
+            ],
+            [
+              1092,
+              290
+            ],
+            [
+              1406,
+              290
+            ],
+            [
+              1406,
+              1400
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        }
+      ]
+    },
+    {
+      "page": 3,
+      "width": 1653,
+      "height": 2339,
+      "image": "objects/newspapers/Accion_Consciente/images/Accion_Consciente_25-10-1923_page-3.jpg",
+      "textRegions": [
+        {
+          "id": "r",
+          "type": "TextRegion",
+          "points": [
+            [
+              142,
+              110
+            ],
+            [
+              1538,
+              110
+            ],
+            [
+              1538,
+              200
+            ],
+            [
+              142,
+              200
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_1",
+          "type": "TextRegion",
+          "points": [
+            [
+              142,
+              290
+            ],
+            [
+              142,
+              219
+            ],
+            [
+              826,
+              219
+            ],
+            [
+              826,
+              290
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_2",
+          "type": "TextRegion",
+          "points": [
+            [
+              142,
+              319
+            ],
+            [
+              142,
+              290
+            ],
+            [
+              826,
+              290
+            ],
+            [
+              826,
+              319
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_5",
+          "type": "TextRegion",
+          "points": [
+            [
+              514,
+              2153
+            ],
+            [
+              142,
+              2153
+            ],
+            [
+              142,
+              319
+            ],
+            [
+              514,
+              319
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_3",
+          "type": "TextRegion",
+          "points": [
+            [
+              514,
+              319
+            ],
+            [
+              826,
+              319
+            ],
+            [
+              826,
+              2153
+            ],
+            [
+              514,
+              2153
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_4",
+          "type": "TextRegion",
+          "points": [
+            [
+              831,
+              274
+            ],
+            [
+              831,
+              229
+            ],
+            [
+              1145,
+              229
+            ],
+            [
+              1145,
+              274
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_7",
+          "type": "TextRegion",
+          "points": [
+            [
+              831,
+              926
+            ],
+            [
+              831,
+              274
+            ],
+            [
+              1145,
+              274
+            ],
+            [
+              1145,
+              926
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_8",
+          "type": "TextRegion",
+          "points": [
+            [
+              1145,
+              926
+            ],
+            [
+              1145,
+              955
+            ],
+            [
+              831,
+              955
+            ],
+            [
+              831,
+              926
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_9",
+          "type": "TextRegion",
+          "points": [
+            [
+              839,
+              1016
+            ],
+            [
+              839,
+              966
+            ],
+            [
+              1153,
+              966
+            ],
+            [
+              1153,
+              1016
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_10",
+          "type": "TextRegion",
+          "points": [
+            [
+              1153,
+              1016
+            ],
+            [
+              1153,
+              2166
+            ],
+            [
+              839,
+              2166
+            ],
+            [
+              839,
+              1016
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_26",
+          "type": "TextRegion",
+          "points": [
+            [
+              1156,
+              232
+            ],
+            [
+              1462,
+              232
+            ],
+            [
+              1462,
+              1105
+            ],
+            [
+              1156,
+              1105
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_6",
+          "type": "TextRegion",
+          "points": [
+            [
+              1150,
+              1168
+            ],
+            [
+              1150,
+              1121
+            ],
+            [
+              1472,
+              1121
+            ],
+            [
+              1472,
+              1168
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_11",
+          "type": "TextRegion",
+          "points": [
+            [
+              1472,
+              1168
+            ],
+            [
+              1472,
+              2142
+            ],
+            [
+              1150,
+              2142
+            ],
+            [
+              1150,
+              1168
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        }
+      ]
+    },
+    {
+      "page": 4,
+      "width": 1653,
+      "height": 2339,
+      "image": "objects/newspapers/Accion_Consciente/images/Accion_Consciente_25-10-1923_page-4.jpg",
+      "textRegions": [
+        {
+          "id": "r",
+          "type": "TextRegion",
+          "points": [
+            [
+              185,
+              156
+            ],
+            [
+              1436,
+              156
+            ],
+            [
+              1436,
+              218
+            ],
+            [
+              185,
+              218
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_1",
+          "type": "TextRegion",
+          "points": [
+            [
+              192,
+              292
+            ],
+            [
+              192,
+              225
+            ],
+            [
+              823,
+              225
+            ],
+            [
+              823,
+              292
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_4",
+          "type": "TextRegion",
+          "points": [
+            [
+              528,
+              1409
+            ],
+            [
+              192,
+              1409
+            ],
+            [
+              192,
+              292
+            ],
+            [
+              528,
+              292
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_3",
+          "type": "TextRegion",
+          "points": [
+            [
+              528,
+              292
+            ],
+            [
+              823,
+              292
+            ],
+            [
+              823,
+              1409
+            ],
+            [
+              528,
+              1409
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_2",
+          "type": "TextRegion",
+          "points": [
+            [
+              199,
+              1472
+            ],
+            [
+              199,
+              1420
+            ],
+            [
+              837,
+              1420
+            ],
+            [
+              837,
+              1472
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_7",
+          "type": "TextRegion",
+          "points": [
+            [
+              540,
+              2034
+            ],
+            [
+              199,
+              2034
+            ],
+            [
+              199,
+              1472
+            ],
+            [
+              540,
+              1472
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_6",
+          "type": "TextRegion",
+          "points": [
+            [
+              540,
+              1472
+            ],
+            [
+              837,
+              1472
+            ],
+            [
+              837,
+              2034
+            ],
+            [
+              540,
+              2034
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_8",
+          "type": "TextRegion",
+          "points": [
+            [
+              1127,
+              2048
+            ],
+            [
+              827,
+              2048
+            ],
+            [
+              827,
+              230
+            ],
+            [
+              1127,
+              230
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_9",
+          "type": "TextRegion",
+          "points": [
+            [
+              1127,
+              1513
+            ],
+            [
+              1127,
+              230
+            ],
+            [
+              1439,
+              230
+            ],
+            [
+              1439,
+              1513
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_10",
+          "type": "TextRegion",
+          "points": [
+            [
+              1127,
+              1557
+            ],
+            [
+              1127,
+              1513
+            ],
+            [
+              1439,
+              1513
+            ],
+            [
+              1439,
+              1557
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_12",
+          "type": "TextRegion",
+          "points": [
+            [
+              1439,
+              1557
+            ],
+            [
+              1439,
+              1928
+            ],
+            [
+              1127,
+              1928
+            ],
+            [
+              1127,
+              1557
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        },
+        {
+          "id": "r_11",
+          "type": "TextRegion",
+          "points": [
+            [
+              1439,
+              1928
+            ],
+            [
+              1439,
+              2048
+            ],
+            [
+              1127,
+              2048
+            ],
+            [
+              1127,
+              1928
+            ]
+          ],
+          "text": "",
+          "textLines": []
+        }
+      ]
+    }
+  ],
+  "tileSources": [
+    {
+      "type": "image",
+      "url": "objects/newspapers/Accion_Consciente/images/Accion_Consciente_25-10-1923_page-1.jpg",
+      "buildPyramid": true
+    },
+    {
+      "type": "image",
+      "url": "objects/newspapers/Accion_Consciente/images/Accion_Consciente_25-10-1923_page-2.jpg",
+      "buildPyramid": true
+    },
+    {
+      "type": "image",
+      "url": "objects/newspapers/Accion_Consciente/images/Accion_Consciente_25-10-1923_page-3.jpg",
+      "buildPyramid": true
+    },
+    {
+      "type": "image",
+      "url": "objects/newspapers/Accion_Consciente/images/Accion_Consciente_25-10-1923_page-4.jpg",
+      "buildPyramid": true
+    }
+  ]
+}
