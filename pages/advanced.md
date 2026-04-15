@@ -1,5 +1,5 @@
 ---
-layout: search
+layout: advanced
 title: Buscar
 permalink: /advanced/
 ---

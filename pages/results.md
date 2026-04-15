@@ -1,5 +1,5 @@
 ---
 layout: results
-title: Resultados
+title: Resultados de búsqueda
 permalink: /results/
 ---
