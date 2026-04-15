@@ -3,70 +3,80 @@
 {% else %}
 {%- assign items = site.data[site.metadata] | where_exp: 'item','item.objectid and item.parentid == nil' -%}
 {% endif %}
-{%- assign fields = site.data.config-browse -%}
 
 <script>
 
-var items = {{ site.data[site.metadata] | jsonify }};
+/* =========================
+   📦 ITEMS (desde CSV)
+========================= */
+var items = [
+{% for item in items %}
+{
+    "id": {{ item.objectid | jsonify }},
+    "title": {{ item.title | jsonify }},
+    "location": {{ item.location | jsonify }},
+    "date": {{ item.date | jsonify }},
+    "collection": {{ item.collection | jsonify }},
+    "object_transcript": {{ item.object_transcript | jsonify }},
+    "transcript_text": ""
+}
+{% unless forloop.last %},{% endunless %}
+{% endfor %}
+];
 
-/* 📄 cargar transcripciones */
+
+/* =========================
+   📄 CARGAR TRANSCRIPCIONES (TU FUNCIÓN ORIGINAL)
+========================= */
 async function loadTranscripts() {
     const loadingPromises = items.map(async (item) => {
         try {
-            // Check if item has a transcript file
-            if (!item.object_transcript) {
-                return; // Skip if no transcript
-            }
+            if (!item.object_transcript) return;
             
-            // Fetch the transcript file
             const response = await fetch(`{{ '/' | relative_url }}${item.object_transcript}`);
-            
-            if (!response.ok) {
-                return; // Skip if file doesn't exist
-            }
-            
-            // Read the text content
+            if (!response.ok) return;
+
             const transcriptText = await response.text();
-            
-            // Store the transcript text
             item.transcript_text = transcriptText;
-            
+
         } catch (error) {
             console.log(`Could not load transcript for ${item.id}:`, error);
         }
     });
-    
+
     await Promise.all(loadingPromises);
     console.log('Transcript text loaded for all items');
 }
 
+
+/* =========================
+   📅 EXTRAER AÑO (como timeline)
+========================= */
 function extractYear(dateValue) {
     if (!dateValue) return null;
 
     dateValue = dateValue.trim();
 
-    // formato con /
     if (dateValue.includes("/")) {
-        var parts = dateValue.split("/");
-        return parseInt(parts[parts.length - 1]);
+        return parseInt(dateValue.split("/").pop());
     }
 
-    // formato con -
     if (dateValue.includes("-")) {
-        var parts = dateValue.split("-");
-        return parseInt(parts[parts.length - 1]);
+        return parseInt(dateValue.split("-").pop());
     }
 
-    // solo año
     return parseInt(dateValue);
 }
 
-/* 📰 periódicos dinámicos */
-function populateNewspapers() {
+
+/* =========================
+   📰 COLECCIONES DINÁMICAS
+========================= */
+function populateCollections() {
     var set = new Set();
 
-    items.forEach(i => {
-        if (i.newspaper) set.add(i.newspaper);
+    items.forEach(item => {
+        if (item.collection) set.add(item.collection);
     });
 
     var selects = [
@@ -75,6 +85,8 @@ function populateNewspapers() {
     ];
 
     selects.forEach(select => {
+        if (!select) return;
+
         set.forEach(val => {
             var opt = document.createElement("option");
             opt.value = val;
@@ -84,51 +96,18 @@ function populateNewspapers() {
     });
 }
 
-/* 🔍 búsqueda avanzada */
-function advancedSearch() {
-    var text = document.getElementById("main-search").value.toUpperCase();
-    var newspaper = document.getElementById("newspaper-select").value;
-    var year = extractYear(item.date);
-    if (y1 && year && year < parseInt(y1)) return false;
-    if (y2 && year && year > parseInt(y2)) return false;
 
-    var results = items.filter(item => {
-
-        var content = "";
-        for (var k in item) content += item[k] + " ";
-        content = content.toUpperCase();
-
-        if (text && !content.includes(text)) return false;
-        if (newspaper && item.newspaper !== newspaper) return false;
-
-        if (y1 && item.date && item.date < y1) return false;
-        if (y2 && item.date && item.date > y2) return false;
-
-        return true;
-    });
-
-    renderResults(results);
-}
-
-/* 📦 render */
-function renderResults(arr) {
-    var container = document.getElementById("results-container");
-    var html = "";
-
-    arr.forEach(item => {
-        html += `
-        <div style="margin-bottom:10px">
-          <strong>${item.title}</strong><br>
-          ${item.date || ""} — ${item.newspaper || ""}
-        </div>`;
-    });
-
-    container.innerHTML = html || "No results";
-}
-
-/* 📊 gráfico por décadas REAL */
+/* =========================
+   📊 GRÁFICO DE DÉCADAS
+========================= */
 function buildDecadeChart() {
+
     var counts = {};
+    var chart = document.getElementById("decade-chart");
+
+    if (!chart) return;
+
+    chart.innerHTML = "";
 
     items.forEach(item => {
         var year = extractYear(item.date);
@@ -138,19 +117,25 @@ function buildDecadeChart() {
         counts[decade] = (counts[decade] || 0) + 1;
     });
 
-    var chart = document.getElementById("decade-chart");
-    chart.innerHTML = "";
-
+    var decades = Object.keys(counts).sort();
     var max = Math.max(...Object.values(counts));
 
-    Object.keys(counts).sort().forEach(dec => {
+    decades.forEach(dec => {
+
         var wrap = document.createElement("div");
         wrap.className = "bar-wrap";
-        wrap.title = dec;
 
         var bar = document.createElement("div");
         bar.className = "bar";
         bar.style.height = (counts[dec] / max * 80) + "px";
+
+        var label = document.createElement("div");
+        label.style.fontSize = "10px";
+        label.style.textAlign = "center";
+        label.innerText = dec;
+
+        wrap.appendChild(bar);
+        wrap.appendChild(label);
 
         wrap.onclick = () => {
             document.getElementById("year-from").value = dec;
@@ -158,14 +143,83 @@ function buildDecadeChart() {
             advancedSearch();
         };
 
-        wrap.appendChild(bar);
         chart.appendChild(wrap);
     });
 }
 
-/* 🚀 init */
+
+/* =========================
+   🔍 BÚSQUEDA AVANZADA
+========================= */
+function advancedSearch() {
+
+    var text = document.getElementById("main-search").value.toUpperCase();
+    var collection = document.getElementById("newspaper-select").value;
+    var y1 = document.getElementById("year-from").value;
+    var y2 = document.getElementById("year-to").value;
+
+    var results = items.filter(item => {
+
+        var year = extractYear(item.date);
+
+        /* 🔍 TEXTO (solo campos específicos) */
+        if (text) {
+            var content = (
+                (item.title || "") + " " +
+                (item.location || "") + " " +
+                (item.transcript_text || "")
+            ).toUpperCase();
+
+            if (!content.includes(text)) return false;
+        }
+
+        /* 📰 COLECCIÓN */
+        if (collection && item.collection !== collection) return false;
+
+        /* 📅 AÑO */
+        if (y1 && year && year < parseInt(y1)) return false;
+        if (y2 && year && year > parseInt(y2)) return false;
+
+        return true;
+    });
+
+    renderResults(results);
+}
+
+
+/* =========================
+   📦 RENDER RESULTADOS
+========================= */
+function renderResults(arr) {
+
+    var container = document.getElementById("results-container");
+    if (!container) return;
+
+    if (arr.length === 0) {
+        container.innerHTML = "No hay resultados";
+        return;
+    }
+
+    var html = "";
+
+    arr.forEach(item => {
+        html += `
+        <div>
+            <strong>${item.title}</strong><br>
+            ${item.date || ""} — ${item.location || ""}<br>
+            <small>${item.collection || ""}</small>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+}
+
+
+/* =========================
+   🚀 INIT
+========================= */
 loadTranscripts().then(() => {
-    populateNewspapers();
+    populateCollections();
     buildDecadeChart();
     renderResults(items);
 });
