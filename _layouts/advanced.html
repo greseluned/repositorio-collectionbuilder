@@ -1,0 +1,163 @@
+---
+layout: page
+---
+{% assign meta = site.data[site.metadata] %}
+{% assign collections = site.data.collections %}
+
+<style>
+.search-hero {
+  background: #1a1a2e;
+  color: #fff;
+  padding: 3rem 2rem;
+  margin: -1.5rem -15px 2rem -15px;
+}
+.search-hero h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
+.search-hero p { color: #adb5bd; margin-bottom: 0; }
+
+.search-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  max-width: 750px;
+}
+.search-box .form-label { font-weight: 600; font-size: 0.9rem; color: #333; }
+.search-box .form-control, .search-box .form-select {
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 0.95rem;
+}
+.search-box .form-control:focus, .search-box .form-select:focus {
+  border-color: #7fc006;
+  box-shadow: 0 0 0 0.2rem rgba(127,192,6,0.2);
+}
+.btn-search {
+  background-color: #7fc006;
+  border-color: #659a02;
+  color: #000;
+  font-weight: 600;
+  padding: 0.5rem 2rem;
+}
+.btn-search:hover { background-color: #6aaa00; border-color: #5a9000; color: #000; }
+
+.year-inputs { display: flex; gap: 1rem; align-items: center; }
+.year-inputs .form-control { width: 100px; }
+
+.sidebar-panels { display: flex; flex-direction: column; gap: 1rem; }
+.sidebar-panel {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.25rem;
+  border: 1px solid #e9ecef;
+}
+.sidebar-panel h6 { font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: #495057; margin-bottom: 0.75rem; }
+.sidebar-panel ul { list-style: none; padding: 0; margin: 0; }
+.sidebar-panel ul li a { color: #333; text-decoration: none; font-size: 0.9rem; }
+.sidebar-panel ul li a:hover { color: #7fc006; }
+</style>
+
+<div class="search-hero">
+  <h1>{{ site.title }}</h1>
+  <p>Busca en la colección de periódicos históricos</p>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-8">
+    <div class="search-box">
+      <div class="mb-3">
+        <label class="form-label">Búsqueda</label>
+        <input type="text" class="form-control form-control-lg" id="searchQuery" placeholder="Buscar en títulos y transcripciones...">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Publicación</label>
+        <select class="form-select" id="searchCollection">
+          <option value="">Todas las publicaciones</option>
+          {% for coll in collections %}
+          <option value="{{ coll.id }}">{{ coll.title }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Rango de fechas</label>
+        <div class="year-inputs">
+          <span>Desde</span>
+          <input type="number" class="form-control" id="yearFrom" placeholder="Año" min="1800" max="2100">
+          <span>Hasta</span>
+          <input type="number" class="form-control" id="yearTo" placeholder="Año" min="1800" max="2100">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Idioma</label>
+        <div class="d-flex gap-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="es" id="langEs" checked>
+            <label class="form-check-label" for="langEs">Español</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="en" id="langEn">
+            <label class="form-check-label" for="langEn">Inglés</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="tl" id="langTl">
+            <label class="form-check-label" for="langTl">Filipino</label>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-search" onclick="doSearch()">Buscar</button>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="sidebar-panels">
+      <div class="sidebar-panel">
+        <h6>Publicaciones</h6>
+        <ul>
+          {% for coll in collections %}
+          {% assign count = meta | where: "collection", coll.id | size %}
+          <li><a href="/collections/{{ coll.id }}/">{{ coll.title }}</a> <span class="badge bg-secondary rounded-pill float-end">{{ count }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="sidebar-panel">
+        <h6>Explorar por lugar</h6>
+        <ul>
+          {% assign locations = meta | map: "location" | uniq | sort %}
+          {% for loc in locations %}{% if loc != "" %}
+          <li><a href="#" onclick="searchByLocation('{{ loc | escape }}'); return false;">{{ loc }}</a></li>
+          {% endif %}{% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function doSearch() {
+  const query = document.getElementById("searchQuery").value.trim();
+  const collection = document.getElementById("searchCollection").value;
+  const yearFrom = document.getElementById("yearFrom").value;
+  const yearTo = document.getElementById("yearTo").value;
+
+  const langs = [];
+  document.querySelectorAll(".form-check-input:checked").forEach(cb => langs.push(cb.value));
+
+  const params = new URLSearchParams();
+  if (query) params.set("q", query);
+  if (collection) params.set("collection", collection);
+  if (yearFrom) params.set("from", yearFrom);
+  if (yearTo) params.set("to", yearTo);
+  if (langs.length) params.set("lang", langs.join(","));
+
+  window.location.href = "{{ '/results/' | relative_url }}?" + params.toString();
+}
+
+function searchByLocation(loc) {
+  const params = new URLSearchParams();
+  params.set("location", loc);
+  window.location.href = "{{ '/results/' | relative_url }}?" + params.toString();
+}
+
+document.getElementById("searchQuery").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") doSearch();
+});
+</script>
