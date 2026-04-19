@@ -87,3 +87,11 @@ La documentación y contenido web general de CollectionBuilder está licenciada 
 El código de CollectionBuilder está licenciado bajo [MIT](https://github.com/CollectionBuilder/collectionbuilder-csv/blob/master/LICENSE).
 
 Los datos (imágenes, transcripciones, etc.) pueden estar sujetos a licencias específicas indicadas en sus metadatos.
+
+---
+
+## Referencias
+
+Gilman, I., Kishore, A., Thatcher, C., Salsbery, M., Vandecreme, A., Pearce, T., & Horák, J. ". (2026). OpenSeadragon (Version 6.0.2) [Computer software]. <https://github.com/openseadragon/openseadragon>
+
+Williamson, E. P., Becker, D., & Wikle, O. (2021). CollectionBuilder-CSV (Version 1+) [Computer software]. <https://github.com/CollectionBuilder/collectionbuilder-csv>
