@@ -82,6 +82,8 @@ CollectionBuilder es un framework open source desarrollado por la University of 
 
 ## Licencia
 
-CollectionBuilder está licenciado bajo MIT.
+La documentación y contenido web general de CollectionBuilder está licenciada bajo [Creative Commons Attribution-ShareAlike 4.0 International](http://creativecommons.org/licenses/by-sa/4.0/). 
+
+El código de CollectionBuilder está licenciado bajo [MIT](https://github.com/CollectionBuilder/collectionbuilder-csv/blob/master/LICENSE).
 
 Los datos (imágenes, transcripciones, etc.) pueden estar sujetos a licencias específicas indicadas en sus metadatos.
